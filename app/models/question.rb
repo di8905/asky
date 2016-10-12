@@ -1,4 +1,6 @@
 class Question < ActiveRecord::Base
-  validates :title, :body, presence: true
-  has_many :answers
+  validates :title, presence: true, length: { minimum: 5 }
+  validates :body, presence: true, length: {minimum: 10}
+  
+  has_many :answers, dependent: :destroy
 end
