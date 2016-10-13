@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { FactoryGirl.create(:question) }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:question) }
+  let(:invalid_attributes) { FactoryGirl.attributes_for(:invalid_question)}
   
   describe 'GET #index' do
     let(:questions) { FactoryGirl.create_list(:question, 3) }
@@ -55,23 +57,23 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do 
       it 'saves new question in database' do
-        expect { post :create, question: FactoryGirl.attributes_for(:question) }.to change(Question, :count).by(1)
-        post :create, question: FactoryGirl.attributes_for(:question)
+        expect { post :create, question: valid_attributes }.to change(Question, :count).by(1)
+        post :create, question: valid_attributes
       end
       
       it 'redirects to show view' do
-        post :create, question: FactoryGirl.attributes_for(:question)
+        post :create, question: valid_attributes
         expect(response).to redirect_to question_path(assigns(:question))
       end
     end
     
     context 'with invalid attributes' do
       it 'not saves the new question in database' do
-        expect { post :create, question: FactoryGirl.attributes_for(:invalid_question)}.to_not change(Question, :count)
+        expect { post :create, question: invalid_attributes }.to_not change(Question, :count)
       end
       
       it 're-renders the new view' do
-        post :create, question: FactoryGirl.attributes_for(:invalid_question)
+        post :create, question: invalid_attributes
         expect(response).to render_template :new
       end
     end
@@ -80,7 +82,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #update' do
     context 'update with valid attributes' do
       it 'assigns to @question appropriate question' do
-        patch :update, id: question, question: FactoryGirl.attributes_for(:question)
+        patch :update, id: question, question: valid_attributes
         expect(assigns(:question)).to eq question
       end
       
@@ -91,15 +93,14 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq("More than 10 letters")
       end
       
-      # TODO to finish update invalid context, refactoring, destroy tests
       it 'redirects to updated question' do
-        patch :update, id: question, question: FactoryGirl.attributes_for(:question)
+        patch :update, id: question, question: valid_attributes
         expect(response).to redirect_to question
       end
     end
     
     context 'update with invalid attributes' do
-      before { patch :update, id: question, question: FactoryGirl.attributes_for(:invalid_question) }
+      before { patch :update, id: question, question: invalid_attributes }
 
       it 'does not update question with invalid attributes' do
         question.reload
