@@ -3,4 +3,10 @@ FactoryGirl.define do
     title "MyString"
     body "MyText must be at least 10 letters"
   end
+  
+  factory :invalid_question, class: Question do
+    title "Te"
+    body "Least 10"
+  end
+  
 end
