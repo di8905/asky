@@ -2,13 +2,9 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { FactoryGirl.create(:question) }
-<<<<<<< HEAD
   let(:valid_attributes) { FactoryGirl.attributes_for(:question) }
   let(:invalid_attributes) { FactoryGirl.attributes_for(:invalid_question) }
 
-=======
-  
->>>>>>> 4ae1678ac6abb73cdd7900a6e21d66791158d426
   describe 'GET #index' do
     let(:questions) { FactoryGirl.create_list(:question, 3) }
     before { get :index }

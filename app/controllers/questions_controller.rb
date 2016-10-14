@@ -42,18 +42,8 @@ class QuestionsController < ApplicationController
   def set_question
     @question = Question.find(params[:id])
   end
-<<<<<<< HEAD
 
   def question_params
     params.require(:question).permit(:title, :body)
-=======
-  
-  def new
-    @question = Question.new
-  end
-  
-  def edit
-    @question = Question.find(params[:id])
->>>>>>> 4ae1678ac6abb73cdd7900a6e21d66791158d426
   end
 end
