@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    email "MyString"
-    name "MyString"
+    email 'MyString'
+    name 'MyString'
   end
 end
