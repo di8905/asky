@@ -24,26 +24,28 @@ RSpec.describe AnswersController, type: :controller do
   end
       
   describe 'POST #create' do
+    let(:valid_answer_action)   { post :create, question_id: question.id, answer: FactoryGirl.attributes_for(:answer) }
+    let(:invalid_answer_action) { post :create, question_id: question.id, answer: FactoryGirl.attributes_for(:invalid_answer) }
+    
     context 'with valid attributes' do
       it 'saves new answer in database' do
-        expect { post :create, question_id: question.id, answer: FactoryGirl.attributes_for(:answer) }.to change(question.answers, :count).by(1)
+        expect { valid_answer_action }.to change(question.answers, :count).by(1)
       end
       
       it 'redirects to matching question' do
-        post :create, question_id: question.id, answer: FactoryGirl.attributes_for(:answer)
+        valid_answer_action
         expect(response).to redirect_to question
       end
     end
     
     context 'with invalid attributes' do
-      let(:invalid_attrbutes) { FactoryGirl.attributes_for(:invalid_answer) }
       
       it 'does not save invalid answer to database' do
-        expect { post :create, question_id: question.id, answer: invalid_attrbutes }.not_to change(question.answers, :count)
+        expect { invalid_answer_action }.not_to change(question.answers, :count)
       end
       
       it 'renders the new view' do
-        post :create, question_id: question.id, answer: invalid_attrbutes
+        invalid_answer_action
         expect(response).to render_template :new
       end
       
