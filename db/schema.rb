@@ -11,26 +11,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161012092306) do
-
+ActiveRecord::Schema.define(version: 20_161_012_190_524) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "answers", force: :cascade do |t|
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.text     "body"
-    t.integer  "question_id"
+  create_table 'answers', force: :cascade do |t|
+    t.datetime 'created_at',  null: false
+    t.datetime 'updated_at',  null: false
+    t.text     'body'
+    t.integer  'question_id'
+    t.integer  'user_id'
   end
 
-  add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
+  add_index 'answers', ['question_id'], name: 'index_answers_on_question_id', using: :btree
+  add_index 'answers', ['user_id'], name: 'index_answers_on_user_id', using: :btree
 
-  create_table "questions", force: :cascade do |t|
-    t.string   "title"
-    t.text     "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'questions', force: :cascade do |t|
+    t.string   'title'
+    t.text     'body'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.integer  'user_id'
   end
 
-  add_foreign_key "answers", "questions"
+  add_index 'questions', ['user_id'], name: 'index_questions_on_user_id', using: :btree
+
+  create_table 'users', force: :cascade do |t|
+    t.string   'email'
+    t.string   'name'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  add_index 'users', ['email'], name: 'index_users_on_email', unique: true, using: :btree
+  add_index 'users', ['name'], name: 'index_users_on_name', using: :btree
+
+  add_foreign_key 'answers', 'questions'
+  add_foreign_key 'answers', 'users'
+  add_foreign_key 'questions', 'users'
 end
