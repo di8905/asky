@@ -31,6 +31,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    sign_in_user
     before { get :new }
 
     it 'assings new Question to @question variable' do
@@ -43,6 +44,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    sign_in_user
     before { get :edit, id: question }
 
     it 'assigns to @question variable appropriate question object' do
@@ -55,20 +57,21 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    context 'with valid attributes' do
-      it 'saves new question in database' do
-        expect { post :create, question: valid_attributes }.to change(Question, :count).by(1)
-        post :create, question: valid_attributes
-      end
+    sign_in_user
+    
+    it 'saves new question in database' do
+      expect { post :create, question: valid_attributes }.to change(Question, :count).by(1)
+      post :create, question: valid_attributes
+    end
 
-      it 'redirects to show view' do
-        post :create, question: valid_attributes
-        expect(response).to redirect_to question_path(assigns(:question))
-      end
+    it 'redirects to show view' do
+      post :create, question: valid_attributes
+      expect(response).to redirect_to question_path(assigns(:question))
     end
   end
 
   describe 'GET #new' do
+    sign_in_user
     before { get :new }
 
     it 'assings new Question to @question variable' do
@@ -81,6 +84,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    sign_in_user
     before { get :edit, id: question }
 
     it 'assigns to @question variable appropriate question object' do
@@ -93,6 +97,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
+    
     context 'with valid attributes' do
       it 'saves new question in database' do
         expect { post :create, question: valid_attributes }.to change(Question, :count).by(1)
@@ -118,6 +124,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    sign_in_user
+    
     context 'update with valid attributes' do
       it 'assigns to @question appropriate question' do
         patch :update, id: question, question: valid_attributes
