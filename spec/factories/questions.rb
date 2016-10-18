@@ -1,6 +1,9 @@
 FactoryGirl.define do
+  sequence(:title, 1) do |n|
+    "Title number: #{n}"
+  end
   factory :question do
-    title 'MyString'
+    title 
     body 'MyText must be at least 10 letters'
   end
 

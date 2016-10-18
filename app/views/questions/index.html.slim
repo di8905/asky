@@ -1,2 +1,16 @@
 p
   =link_to 'New question', new_question_path
+  
+h1 Questions list
+table
+  thead
+    tr 
+      th Title
+      th Body
+    tbody
+    -if @questions
+      = render @questions
+    -else
+      tr 
+        td List is empty
+    
