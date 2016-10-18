@@ -1,1 +1,7 @@
 h1 new question
+= form_for @question do |f|
+  = f.label :title
+  = f.text_field :title
+  = f.label :body
+  = f.text_area :body, size: '40x20'
+  = f.submit 'Create question'
