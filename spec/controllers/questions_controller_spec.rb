@@ -55,21 +55,7 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template :edit
     end
   end
-
-  describe 'POST #create' do
-    sign_in_user
-    
-    it 'saves new question in database' do
-      expect { post :create, question: valid_attributes }.to change(Question, :count).by(1)
-      post :create, question: valid_attributes
-    end
-
-    it 'redirects to show view' do
-      post :create, question: valid_attributes
-      expect(response).to redirect_to question_path(assigns(:question))
-    end
-  end
-
+  
   describe 'GET #new' do
     sign_in_user
     before { get :new }
@@ -150,7 +136,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'does not update question with invalid attributes' do
         question.reload
-        expect(question.title).to eq 'MyString'
+        expect(question.title).to eq 'My Title'
         expect(question.body).to eq 'MyText must be at least 10 letters'
       end
 
