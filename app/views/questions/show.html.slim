@@ -1,2 +1,7 @@
-p= @question.title
-p = @question.body
+h1= @question.title
+table.table.table-striped
+  tr
+    td
+    = @question.body
+  = render 'question_answers', question: @question
+     

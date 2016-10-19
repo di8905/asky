@@ -32,25 +32,23 @@ feature 'view question with answers', %q{
   No matter logged in or not.
 } do
   given(:user) { FactoryGirl.create(:user) }
-  given(:question) { FactoryGirl.create(:question) }
+  given(:answer) { FactoryGirl.create(:answer) }
   given(:check_expectations) do 
     expect(page).to have_content('MyText must be at least 10 letters')
     expect(page).to have_content('My Title')
-    expect(current_path).to eq question_path(question)
+    expect(current_path).to eq question_path(answer.question)
     expect(page).to have_content('My answer text')
   end
   
   scenario 'logged in user views the question' do
     log_in(user)
-    visit question_path(question)
-    FactoryGirl.create(:answer, question: question)
+    visit question_path(answer.question)
     
-    save_and_open_page
     check_expectations
   end
   
   scenario 'not logged in user views the question' do
-    visit question_path(question)
+    visit question_path(answer.question)
     
     check_expectations
   end

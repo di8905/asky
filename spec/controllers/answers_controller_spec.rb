@@ -78,7 +78,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'does not update answer' do
         answer.reload
-        expect(answer.body).to eq 'My text'
+        expect(answer.body).to eq 'My answer text'
       end
 
       it 're-renders form edit' do
