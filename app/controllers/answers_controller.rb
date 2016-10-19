@@ -29,8 +29,12 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
-    redirect_to @question
+     if @answer.user == current_user
+       @answer.destroy
+       redirect_to @question, notice: "Answer deleted"
+     else 
+       redirect_to @question, notice: "No access to delete this answer"
+     end
   end
 
   private
