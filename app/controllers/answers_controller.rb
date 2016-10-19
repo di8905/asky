@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_question, only: [:new, :create, :update, :destroy]
   before_action :set_answer, only: [:update, :edit, :destroy]
 
@@ -8,8 +9,9 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
     if @answer.save
-      redirect_to @question
+      redirect_to @question, notice: "Your answer have been successfully added"
     else
       render :new
     end

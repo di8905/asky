@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { FactoryGirl.create(:question) }
-  let(:answer) { question.answers.create(FactoryGirl.attributes_for(:answer)) }
+  let(:answer) { FactoryGirl.create(:answer) }
+  let(:question) { answer.question }
+  sign_in_user
 
   describe 'GET #new' do
     before { get :new, question_id: question.id }
@@ -29,7 +30,7 @@ RSpec.describe AnswersController, type: :controller do
       post :create, question_id: question.id, answer: FactoryGirl.attributes_for(:answer)
     end
     let(:invalid_answer_action) do
-      post :create, question_id: question.id, answer: FactoryGirl.attributes_for(:invalid_answer)
+      post :create, question_id: question.id, answer: {body: nil}
     end
 
     context 'with valid attributes' do
@@ -45,6 +46,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save invalid answer to database' do
+        question
         expect { invalid_answer_action }.not_to change(Answer, :count)
       end
 

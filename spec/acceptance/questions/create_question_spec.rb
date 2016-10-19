@@ -20,6 +20,17 @@ feature 'create question', %q{
     expect(page).to have_content 'Test question body'
   end
   
+  scenario 'authenticated user creates the invalid question' do
+    log_in(user)
+    visit questions_path
+    click_on 'New question'
+    fill_in 'Title', with: ' '
+    fill_in 'Body', with: ' '
+    click_on 'Create question'
+    
+    expect(page).to have_content('Errors Question')
+  end
+  
   scenario 'unauthenticated user tries to create the question' do
     visit questions_path
     click_on 'New question'
