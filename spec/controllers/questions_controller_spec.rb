@@ -24,6 +24,10 @@ RSpec.describe QuestionsController, type: :controller do
     it 'assigns to @question variable appropriate question object' do
       expect(assigns(:question)).to eq question
     end
+    
+    it 'assigns to @answers variable appropriate answers' do
+      expect(assigns(:answers)).to eq question.answers
+    end
 
     it 'renders the view show' do
       expect(response).to render_template :show

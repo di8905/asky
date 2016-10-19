@@ -6,7 +6,6 @@ feature 'list questions', %q{
 } do
   given(:user) { FactoryGirl.create(:user) }
   given(:check_expectations) do
-    expect(page).to have_content("MyText must be at least 10 letters")
     (1..3).each { |i| expect(page).to have_content("Title number: #{i}")}
   end
   before do 
@@ -38,12 +37,15 @@ feature 'view question with answers', %q{
     expect(page).to have_content('MyText must be at least 10 letters')
     expect(page).to have_content('My Title')
     expect(current_path).to eq question_path(question)
+    expect(page).to have_content('My answer text')
   end
   
   scenario 'logged in user views the question' do
     log_in(user)
     visit question_path(question)
+    FactoryGirl.create(:answer, question: question)
     
+    save_and_open_page
     check_expectations
   end
   

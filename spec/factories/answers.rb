@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :answer do
-    body 'My text'
+    body 'My answer text'
   end
 
   factory :invalid_answer, class: Answer do

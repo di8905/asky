@@ -2,11 +2,11 @@ p
   =link_to 'New question', new_question_path
   
 h1 Questions list
-table
+table.table.table-hover
   thead
     tr 
+      th Answers
       th Title
-      th Body
     tbody
     -if @questions
       = render @questions
