@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :question do
+    user
     title 'My Title'
     body 'MyText must be at least 10 letters'
   end
