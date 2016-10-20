@@ -13,4 +13,8 @@ class User < ActiveRecord::Base
   validates :name, length: { minimum: 3 }
   validates :password, length: { minimum: 6}
   validates :email, format: { with: EMAIL, message: 'incorrect email' }
+  
+  def author_of?(entity)  
+    id == entity.user.id
+  end
 end

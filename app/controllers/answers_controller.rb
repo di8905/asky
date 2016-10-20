@@ -30,12 +30,13 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-     if @answer.user_id == current_user.id
-       @answer.destroy
-       redirect_to @question, notice: "Answer deleted"
-     else 
-       redirect_to @question, notice: "No access to delete this answer"
-     end
+    if current_user.author_of?(@answer)
+     @answer.destroy
+     flash[:notice] = "Answer deleted"
+    else 
+     flash[:alert] = "No access to delete this answer"
+    end
+    redirect_to @question
   end
 
   private

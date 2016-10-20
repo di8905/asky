@@ -12,4 +12,12 @@ RSpec.describe User, type: :model do
   it { should validate_length_of(:password).is_at_least(6) }
   it { should_not allow_value('de@nis').for(:email) }
   it { should allow_value('denis@pavlov.com').for(:email) }
+  
+  it 'has appropriate author_of? method' do
+    question = FactoryGirl.create(:question)
+    another_question = FactoryGirl.create(:question)
+    user = question.user
+    expect(user.author_of?(question)).to eq true
+    expect(user.author_of?(another_question)).to eq false
+  end   
 end
