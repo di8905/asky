@@ -4,7 +4,7 @@ table.table.table-striped
     td
     = @question.body
   = render 'question_answers', question: @question
-=link_to 'Add answer', new_question_answer_path(@question), class: "btn btn-success"
+=render 'answers/answer_form', question: @question, answer: @question.answers.new
 =link_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger"
 
      
