@@ -30,7 +30,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-     if @answer.user == current_user
+     if @answer.user_id == current_user.id
        @answer.destroy
        redirect_to @question, notice: "Answer deleted"
      else 
