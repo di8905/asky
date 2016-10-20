@@ -12,8 +12,9 @@ feature 'delete answer', %q{
     @user = @answer.user
     log_in(@user)
     visit question_path(@question)
-  
-    expect { delete_action }.to change(Answer, :count).by(-1)
+    delete_action
+    
+    expect(page).not_to have_content(@answer.body)
     expect(page).to have_content('Answer deleted')
   end
   

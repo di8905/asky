@@ -12,6 +12,7 @@ feature 'create answer', %q{
     click_on('Post your answer')
     
     expect(page).to have_content('Your answer have been successfully added')
+    expect(page).to have_content('My test answer')
     expect(current_path).to eq question_path(question)
   end
   

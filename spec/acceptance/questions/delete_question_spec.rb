@@ -12,8 +12,9 @@ feature 'delete question', %q{
   scenario 'author deletes his question' do
     @user = @question.user
     log_in(@user)
-  
-    expect { delete_action }.to change(Question, :count).by(-1)
+    delete_action  
+    
+    expect(page).not_to have_content(@question.body)
     expect(page).to have_content('Question deleted')
   end
   
