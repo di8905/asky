@@ -5,6 +5,7 @@ table.table.table-striped
     = @question.body
   = render 'questions/question_answers', question: @question
 =render 'answers/answer_form', question: @question, answer: @answer || @question.answers.new
-=link_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger"
+-if current_user.try(:author_of?, @question)
+  =link_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger"
 
      

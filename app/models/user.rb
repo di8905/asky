@@ -3,18 +3,13 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  EMAIL = /.+@.+\..+/i
 
   has_many :questions
   has_many :answers
 
-  validates :name, :email, :password, presence: true
-  validates :email, uniqueness: { case_sensitive: false }
-  validates :name, length: { minimum: 3 }
-  validates :password, length: { minimum: 6}
-  validates :email, format: { with: EMAIL, message: 'incorrect email' }
+  validates :name, presence: true, length: { minimum: 3 }
   
   def author_of?(entity)  
-    id == entity.user.id
+    id == entity.try(:user).try(:id)
   end
 end

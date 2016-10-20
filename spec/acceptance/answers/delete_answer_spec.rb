@@ -17,15 +17,13 @@ feature 'delete answer', %q{
     expect(page).to have_content('Answer deleted')
   end
   
-  scenario 'user tries to delete question of another user' do
-    @answer = FactoryGirl.create(:answer)
-    @question = @answer.question
+  scenario 'only author sees delete button' do
     @user = FactoryGirl.create(:user)
+    @answer = FactoryGirl.create(:answer)
     log_in(@user)
-    visit question_path(@question)
+    visit question_path(@answer.question)
     
-    expect { delete_action }.not_to change(Answer, :count)
-    expect(page).to have_content("No access to delete this answer")
+    expect(page).to_not have_content('Delete answer')
   end
   
 end

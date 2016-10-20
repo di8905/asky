@@ -8,7 +8,7 @@ table.table.table-hover
       th Answers
       th Title
     tbody
-    -if @questions
+    -unless @questions.empty?
       = render @questions
     -else
       tr 
