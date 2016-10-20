@@ -13,7 +13,8 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question, notice: "Your answer have been successfully added"
     else
-      render :new
+      @question.reload
+      render 'questions/show'
     end
   end
 
