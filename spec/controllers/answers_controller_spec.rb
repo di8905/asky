@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:answer) { FactoryGirl.create(:answer) }
   let(:question) { answer.question }
+  let(:user) { answer.user }
   sign_in_user
-
+  
   describe 'GET #new' do
     before { get :new, question_id: question.id }
 

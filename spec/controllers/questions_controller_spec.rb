@@ -4,6 +4,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { FactoryGirl.create(:question) }
   let(:valid_attributes) { FactoryGirl.attributes_for(:question) }
   let(:invalid_attributes) { FactoryGirl.attributes_for(:invalid_question) }
+  let(:user) { question.user }
 
   describe 'GET #index' do
     let(:questions) { FactoryGirl.create_list(:question, 3) }
