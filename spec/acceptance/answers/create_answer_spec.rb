@@ -8,7 +8,6 @@ feature 'create answer', %q{
     question = FactoryGirl.create(:question)
     log_in(question.user)
     visit question_path(question)
-    click_on('Add answer')
     fill_in 'Answer:', with: 'My test answer'
     click_on('Post your answer')
     
@@ -19,7 +18,8 @@ feature 'create answer', %q{
   scenario 'unauthenticated user tries to create the answer' do
     question = FactoryGirl.create(:question)
     visit question_path(question)
-    click_on('Add answer')
+    fill_in 'Answer:', with: 'My test answer'
+    click_on('Post your answer')
     
     expect(page).to have_content('You need to sign in or sign up before continuing.')
   end
@@ -28,7 +28,6 @@ feature 'create answer', %q{
     question = FactoryGirl.create(:question)
     log_in(question.user)
     visit question_path(question)
-    click_on('Add answer')
     fill_in 'Answer:', with: 'My'
     click_on('Post your answer')
     

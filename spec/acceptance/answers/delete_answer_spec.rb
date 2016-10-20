@@ -6,7 +6,7 @@ feature 'delete answer', %q{
     
   let(:delete_action) { click_on('Delete answer', match: :first) } 
     
-  scenario 'author deletes his question' do
+  scenario 'author deletes his answer' do
     @answer = FactoryGirl.create(:answer)
     @question = @answer.question
     @user = @answer.user

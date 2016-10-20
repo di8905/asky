@@ -6,26 +6,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { answer.user }
   sign_in_user
   
-  describe 'GET #new' do
-    before { get :new, question_id: question.id }
-
-    it 'assigns appropriate @question variable to make new answer' do
-      expect(assigns(:question)).to eq question
-    end
-
-    it 'assigns new Answer to @answer variable' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'is associated with @question' do
-      expect(assigns(:answer).question).to eq question
-    end
-
-    it 'render view :new' do
-      expect(response).to render_template :new
-    end
-  end
-
   describe 'POST #create' do
     let(:valid_answer_action) do
       post :create, question_id: question.id, answer: FactoryGirl.attributes_for(:answer)
@@ -53,7 +33,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'renders the new view' do
         invalid_answer_action
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
       end
     end
   end
@@ -85,7 +65,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 're-renders form edit' do
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
       end
     end
   end

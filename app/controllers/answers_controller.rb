@@ -23,9 +23,9 @@ class AnswersController < ApplicationController
 
   def update
     if @answer.update(answer_params)
-      redirect_to @question
+      redirect_to @question, notice: "Your answer have been successfully updated"
     else
-      render :new
+      render 'questions/show'
     end
   end
 
