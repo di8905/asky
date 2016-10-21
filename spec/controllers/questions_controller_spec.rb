@@ -100,6 +100,12 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, question: valid_attributes
         expect(response).to redirect_to question_path(assigns(:question))
       end
+      
+      it 'associates current user with question' do
+        post :create, question: valid_attributes
+        expect(question.user_id).to eq user.id
+      end
+      
     end
 
     context 'with invalid attributes' do
@@ -149,8 +155,13 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template :edit
       end
     end
+  end
 
-    describe 'DELETE #delete' do
+  describe 'DELETE #delete' do
+    sign_in_user
+    
+    context 'delete request from author' do
+      
       it 'delets the question' do
         question
         expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
@@ -159,6 +170,14 @@ RSpec.describe QuestionsController, type: :controller do
       it 'redirects to index of questions' do
         delete :destroy, id: question
         expect(response).to redirect_to questions_path
+      end
+    end
+    
+    context 'delete request from not author' do
+      it 'does not delete question' do
+        sign_in FactoryGirl.create(:user)
+        
+        expect { delete :destroy, id: question }.not_to change(Question, :count)
       end
     end
   end

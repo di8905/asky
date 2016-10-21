@@ -5,7 +5,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { answer.question }
   let(:user) { answer.user }
   sign_in_user
-  
+   
   describe 'POST #create' do
     let(:valid_answer_action) do
       post :create, question_id: question.id, answer: FactoryGirl.attributes_for(:answer)
@@ -76,15 +76,32 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #delete' do
-    let(:delete_action) { delete :destroy, question_id: question.id, id: answer }
-    it 'deletes the answer' do
-      answer
-      expect { delete_action }.to change(Answer, :count).by(-1)
-    end
+    context 'delete request from author' do 
+      let(:delete_action) { delete :destroy, question_id: question.id, id: answer }
+      
+      it 'deletes the answer' do
+        answer
+        expect { delete_action }.to change(Answer, :count).by(-1)
+      end
 
-    it 'redirects to question' do
-      delete_action
-      expect(response).to redirect_to question
+      it 'redirects to question' do
+        delete_action
+        expect(response).to redirect_to question
+      end
     end
+    
+    context 'try to delete from not author' do
+      before { sign_in FactoryGirl.create(:user) }
+      
+      it 'does not delete answer' do
+        @request.env['devide.mapping'] = Devise.mappings[:user]
+        expect { delete :destroy, question_id: question.id, id: answer }.not_to change(Answer, :count)
+      end
+      
+      it 'redirects to question' do
+        delete :destroy, question_id: question.id, id: answer
+        expect(response).to redirect_to question
+      end
+    end 
   end
 end
