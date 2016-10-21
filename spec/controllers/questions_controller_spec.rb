@@ -141,8 +141,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'does not update question with invalid attributes' do
         question.reload
-        expect(question.title).to eq 'My Title'
-        expect(question.body).to eq 'MyText must be at least 10 letters'
+        expect(question.title).to eq question.title
+        expect(question.body).to eq question.body
       end
 
       it 're-renders edit view' do

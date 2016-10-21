@@ -23,6 +23,11 @@ RSpec.describe AnswersController, type: :controller do
         valid_answer_action
         expect(response).to redirect_to question
       end
+      
+      it 'associates current user with answer' do
+        valid_answer_action
+        expect(answer.user_id).to eq user.id
+      end
     end
 
     context 'with invalid attributes' do
@@ -61,7 +66,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'does not update answer' do
         answer.reload
-        expect(answer.body).to eq 'My answer text'
+        expect(answer.body).to eq answer.body
       end
 
       it 're-renders form edit' do
