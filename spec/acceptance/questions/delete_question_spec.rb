@@ -9,21 +9,31 @@ feature 'delete question', %q{
   end
   before { @question = FactoryGirl.create(:question) }  
   
-  scenario 'author deletes his question' do
-    @user = @question.user
-    log_in(@user)
-    delete_action  
+  context 'logged in user' do
+    scenario 'author deletes his question' do
+      @user = @question.user
+      log_in(@user)
+      delete_action  
+      
+      expect(page).not_to have_content(@question.body)
+      expect(page).to have_content('Question deleted')
+    end
     
-    expect(page).not_to have_content(@question.body)
-    expect(page).to have_content('Question deleted')
+    scenario 'only author can see delete button' do
+      @user = FactoryGirl.create(:user)
+      log_in(@user)
+      visit question_path(@question)
+      
+      expect(page).not_to have_content('Delete question')    
+    end
   end
   
-  scenario 'only author can see delete button' do
-    @user = FactoryGirl.create(:user)
-    log_in(@user)
-    visit question_path(@question)
-    
-    expect(page).not_to have_content('Delete question')    
+  context 'not logged in user' do
+    scenario 'not logged in user cannot see delete button' do
+      @question = FactoryGirl.create(:question)
+      visit question_path(@question)
+      
+      expect(page).not_to have_content('Delete question')
+    end
   end
-  
 end
