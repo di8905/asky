@@ -10,6 +10,6 @@ class User < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 3 }
   
   def author_of?(entity)  
-    id == entity.try(:user).try(:id)
+    id == entity.try(:user_id)
   end
 end
