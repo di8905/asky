@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { FactoryGirl.create(:question)}
-  let(:answer) { FactoryGirl.create(:answer) }
+  let!(:answer) { FactoryGirl.create(:answer) }
   sign_in_user
    
   describe 'POST #create' do
@@ -15,7 +15,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves new answer in database' do
-        expect { valid_answer_action }.to change(question.answers, :count).by(1)
+        expect { valid_answer_action }.to change(Answer, :count).by(1)
       end
 
       it 'redirects to matching question' do
@@ -75,14 +75,12 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #delete' do
+    let(:delete_action) { delete :destroy, question_id: answer.question.id, id: answer }
+    
     context 'deletes if request from the author' do 
-      let(:delete_action) do 
-        sign_in answer.user
-        delete :destroy, question_id: answer.question.id, id: answer 
-      end
+      before { sign_in answer.user }
       
       it 'deletes the answer' do
-        answer
         expect { delete_action }.to change(Answer, :count).by(-1)
       end
 
@@ -95,12 +93,11 @@ RSpec.describe AnswersController, type: :controller do
     context 'try to delete from not author' do
 
       it 'does not delete answer' do
-        answer
-        expect { delete :destroy, question_id: answer.question.id, id: answer }.not_to change(Answer, :count)
+        expect { delete_action }.not_to change(Answer, :count)
       end
       
       it 'redirects to question' do
-        delete :destroy, question_id: answer.question.id, id: answer
+        delete_action
         expect(response).to redirect_to answer.question
       end
     end 

@@ -7,21 +7,17 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of(:name) }
   it { should validate_length_of(:name).is_at_least(3) }
   
-  let(:prepare_data) do 
+  before do 
     @question = FactoryGirl.create(:question)
     @another_question = FactoryGirl.create(:question)
     @user = @question.user  
   end
   
   it 'has appropriate author_of? method (true condition)' do
-    prepare_data
-    
     expect(@user.author_of?(@question)).to eq true
   end  
   
   it 'has appropriate author_of? method (false condition)' do
-    prepare_data
-    
     expect(@user.author_of?(@another_question)).to eq false
   end    
 end

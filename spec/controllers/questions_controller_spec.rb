@@ -11,7 +11,7 @@ RSpec.describe QuestionsController, type: :controller do
     before { get :index }
 
     it 'populates an array of all questions' do
-      expect(assigns(:questions)).to match_array(questions)
+      expect(assigns(:questions)).to eq(questions)
     end
 
     it 'renders index view' do
@@ -103,7 +103,7 @@ RSpec.describe QuestionsController, type: :controller do
       
       it 'associates current user with question' do
         post :create, question: valid_attributes
-        expect(question.user_id).to eq user.id
+        expect(assigns(:question).user_id).to eq @user.id
       end
       
     end
@@ -158,25 +158,26 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #delete' do
+    let(:delete_action) { delete :destroy, id: question }
+    before { question }
+    
     context 'deletes if request from author' do
       before { sign_in question.user }
       
-      it 'delets the question' do
-        question
-        expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+      it 'deletes the question' do
+        expect { delete_action }.to change(Question, :count).by(-1)
       end
 
       it 'redirects to index of questions' do
-        delete :destroy, id: question
+        delete_action
         expect(response).to redirect_to questions_path
       end
     end
     
     context 'delete request from not author' do
+      sign_in_user
       it 'does not delete question' do
-        sign_in FactoryGirl.create(:user)
-        question
-        expect { delete :destroy, id: question }.not_to change(Question, :count)
+        expect { delete_action }.not_to change(Question, :count)
       end
     end
   end
