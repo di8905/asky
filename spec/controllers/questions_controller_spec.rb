@@ -158,9 +158,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #delete' do
-    sign_in_user
-    
-    context 'delete request from author' do
+    context 'deletes if request from author' do
+      before { sign_in question.user }
       
       it 'delets the question' do
         question
@@ -176,7 +175,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'delete request from not author' do
       it 'does not delete question' do
         sign_in FactoryGirl.create(:user)
-        
+        question
         expect { delete :destroy, id: question }.not_to change(Question, :count)
       end
     end

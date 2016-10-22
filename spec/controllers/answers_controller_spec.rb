@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  let(:question) { FactoryGirl.create(:question)}
   let(:answer) { FactoryGirl.create(:answer) }
-  let(:question) { answer.question }
-  let(:user) { answer.user }
   sign_in_user
    
   describe 'POST #create' do
@@ -26,7 +25,7 @@ RSpec.describe AnswersController, type: :controller do
       
       it 'associates current user with answer' do
         valid_answer_action
-        expect(answer.user_id).to eq user.id
+        expect(assigns(:answer).user_id).to eq @user.id
       end
     end
 
@@ -46,7 +45,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     context 'with valid attributes' do
       before do
-        patch :update, question_id: question.id, id: answer, answer: { body: 'Custom not factored answer' }
+        patch :update, question_id: answer.question.id, id: answer, answer: { body: 'Custom not factored answer' }
       end
 
       it 'updates answer' do
@@ -55,7 +54,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirects to question' do
-        expect(response).to redirect_to question
+        expect(response).to redirect_to answer.question
       end
     end
 
@@ -76,8 +75,11 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #delete' do
-    context 'delete request from author' do 
-      let(:delete_action) { delete :destroy, question_id: question.id, id: answer }
+    context 'deletes if request from the author' do 
+      let(:delete_action) do 
+        sign_in answer.user
+        delete :destroy, question_id: answer.question.id, id: answer 
+      end
       
       it 'deletes the answer' do
         answer
@@ -86,21 +88,20 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to question' do
         delete_action
-        expect(response).to redirect_to question
+        expect(response).to redirect_to answer.question
       end
     end
     
     context 'try to delete from not author' do
-      before { sign_in FactoryGirl.create(:user) }
-      
+
       it 'does not delete answer' do
-        @request.env['devide.mapping'] = Devise.mappings[:user]
-        expect { delete :destroy, question_id: question.id, id: answer }.not_to change(Answer, :count)
+        answer
+        expect { delete :destroy, question_id: answer.question.id, id: answer }.not_to change(Answer, :count)
       end
       
       it 'redirects to question' do
-        delete :destroy, question_id: question.id, id: answer
-        expect(response).to redirect_to question
+        delete :destroy, question_id: answer.question.id, id: answer
+        expect(response).to redirect_to answer.question
       end
     end 
   end
