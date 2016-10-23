@@ -21,7 +21,7 @@ feature 'create answer', %q{
     fill_in 'Answer:', with: 'My test answer'
     click_on('Post your answer')
     
-    expect(page).to have_content('You need to sign in or sign up before continuing.')
+    expect(page).to_not have_content('My test answer')
   end
   
   scenario 'authenticated user creates the invalid answer', js: true do
@@ -31,7 +31,7 @@ feature 'create answer', %q{
     fill_in 'Answer:', with: 'My'
     click_on('Post your answer')
     
-    expect(page).to have_content('Validation failed: Body is too short')
+    expect(page).to have_content('There was an error with your answer, not saved')
   end
   
 end
