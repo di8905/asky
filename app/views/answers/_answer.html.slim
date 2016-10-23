@@ -1,0 +1,6 @@
+- if answer.persisted?
+  tr
+    td= answer.body
+    td
+      -if current_user.try(:author_of?, answer)
+        =link_to 'Delete answer', [@question, answer], method: :delete, class: "btn btn-danger"

@@ -1,4 +1,4 @@
-$('.answers').html(" <%= j render 'questions/question_answers', question: @question %> ");
+$('table#answers tbody').append(" <%= j render @answer , question: @question %> ");
 $('#answer_body').val('');
 <% if @answer.errors.any? %>
   $('#errors').html( " <%=  j render 'common/errors', resource: @answer %> " );

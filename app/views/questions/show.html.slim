@@ -2,7 +2,8 @@ h1#caption= @question.title
 | Qestion:  
 strong= @question.body 
 .answers
-  = render 'question_answers', question: @question
+  table.table.table-striped#answers
+    = render @question.answers
 #errors  
 =render 'answers/answer_form', question: @question, answer: @answer || @question.answers.new
 -if current_user.try(:author_of?, @question)
