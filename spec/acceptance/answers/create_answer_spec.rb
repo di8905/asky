@@ -31,7 +31,7 @@ feature 'create answer', %q{
     fill_in 'Answer:', with: 'My'
     click_on('Post your answer')
     
-    expect(page).to have_content('There was an error with your answer, not saved')
+    expect(page).to have_content('Body is too short (minimum is 3 characters)')
   end
   
 end

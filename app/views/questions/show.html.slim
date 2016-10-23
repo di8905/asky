@@ -2,7 +2,8 @@ h1#caption= @question.title
 | Qestion:  
 strong= @question.body 
 .answers
-  = render 'questions/question_answers', question: @question
+  = render 'question_answers', question: @question
+#errors  
 =render 'answers/answer_form', question: @question, answer: @answer || @question.answers.new
 -if current_user.try(:author_of?, @question)
   =link_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger"

@@ -38,7 +38,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'renders temporary error handler' do
         invalid_answer_action
-        expect(response).to render_template 'temp_error_handler'
+        expect(response).to render_template 'create'
       end
     end
   end
