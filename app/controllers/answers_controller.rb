@@ -10,7 +10,7 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-    render 'redirect' unless @answer.save
+    render 'temp_error_handler' unless @answer.save
   end
 
   def edit
