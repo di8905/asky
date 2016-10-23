@@ -1,8 +1,7 @@
 h1= @question.title
-table.table.table-striped
-  tr
-    td
-    = @question.body
+| Qestion:  
+strong= @question.body 
+.answers
   = render 'questions/question_answers', question: @question
 =render 'answers/answer_form', question: @question, answer: @answer || @question.answers.new
 -if current_user.try(:author_of?, @question)
