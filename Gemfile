@@ -48,6 +48,7 @@ end
 group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
+  gem 'capybara-webkit'
 end
 
 group :development do

@@ -13,7 +13,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Configure static file server for tests with Cache-Control for performance.
-  ActiveSupport::Deprecation.silenced = true
+  ActiveSupport::Deprecation.silenced = true # TODO patch this warnings manually for learning purpose
   config.serve_static_files   = true
   config.static_cache_control = 'public, max-age=3600'
 
