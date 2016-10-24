@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_question, only: [:new, :create, :update, :destroy]
+  before_action :set_question, only: [:new, :create, :update]
   before_action :set_answer, only: [:update, :edit, :destroy]
 
   def new
@@ -31,7 +31,7 @@ class AnswersController < ApplicationController
     else 
      flash[:alert] = "No access to delete this answer"
     end
-    redirect_to @question
+    redirect_to @answer.question
   end
 
   private
