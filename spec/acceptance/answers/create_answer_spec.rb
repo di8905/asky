@@ -11,8 +11,7 @@ feature 'create answer', %q{
     fill_in 'Answer:', with: 'Test answer js capybara.'
     click_on('Post your answer')
     
-    # expect(page).to have_content('Test answer js capybara.')
-    # within('.answers') { expect(page).to have_content('Test answer js capybara.') }
+    within('.answers') { expect(page).to have_content('Test answer js capybara.') }
     expect(current_path).to eq question_path(question)
   end
   
