@@ -76,7 +76,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #delete' do
-    let(:delete_action) { delete :destroy, question_id: answer.question.id, id: answer }
+    let(:delete_action) { delete :destroy, question_id: answer.question.id, id: answer, format: :js }
     
     context 'deletes if request from the author' do 
       before { sign_in answer.user }
@@ -85,21 +85,15 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete_action }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to question' do
+      it 'renders destroy js template' do
         delete_action
-        expect(response).to redirect_to answer.question
+        expect(response).to render_template 'destroy'
       end
     end
     
     context 'try to delete from not author' do
-
       it 'does not delete answer' do
         expect { delete_action }.not_to change(Answer, :count)
-      end
-      
-      it 'redirects to question' do
-        delete_action
-        expect(response).to redirect_to answer.question
       end
     end 
   end

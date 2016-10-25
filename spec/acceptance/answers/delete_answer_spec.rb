@@ -7,7 +7,7 @@ feature 'delete answer', %q{
   let(:delete_action) { click_on('Delete answer', match: :first) } 
   
   context 'logged in user' do
-    scenario 'author deletes his answer' do
+    scenario 'author deletes his answer', js: true do
       @answer = FactoryGirl.create(:answer)
       @question = @answer.question
       @user = @answer.user
@@ -16,10 +16,9 @@ feature 'delete answer', %q{
       delete_action
       
       expect(page).not_to have_content(@answer.body)
-      expect(page).to have_content('Answer deleted')
     end
     
-    scenario 'only author sees delete button' do
+    scenario 'only author sees delete button', js: true do
       @user = FactoryGirl.create(:user)
       @answer = FactoryGirl.create(:answer)
       log_in(@user)
@@ -30,7 +29,7 @@ feature 'delete answer', %q{
   end
   
   context 'not logged in user' do
-    scenario 'not logged in user cannot see delete button' do
+    scenario 'not logged in user cannot see delete button', js: true do
       @answer = FactoryGirl.create(:answer)
       visit question_path(@answer.question)
       
