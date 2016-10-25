@@ -1,11 +1,12 @@
 h1#caption= @question.title
+#errors  
 | Qestion:  
 strong= @question.body 
 .answers
   table.table.table-striped#answers
     tbody
       = render @question.answers
-#errors  
+
 =render 'answers/answer_form', question: @question, answer: @answer || @question.answers.new
 -if current_user.try(:author_of?, @question)
   =link_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger"

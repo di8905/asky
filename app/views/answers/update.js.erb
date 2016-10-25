@@ -1,4 +1,9 @@
-var answer_id = <%= @answer.id %>;
-$('form#edit-answer-form-' + answer_id).hide();
-$('*[data-answer-id="'+answer_id+'"]').show();
-$('#answer-' + answer_id + '-body').text('<%= j @answer.body %>')
+<% if @answer.errors.present? %>
+  $('div#errors').html(" <%= j render 'common/errors', resource: @answer %> ")
+<% else %>
+  $('div#errors').html('')
+  var answer_id = <%= @answer.id %>;
+  $('form#edit-answer-form-' + answer_id).hide();
+  $('*[data-answer-id="'+answer_id+'"]').show();
+  $('#answer-' + answer_id + '-body').text('<%= j @answer.body %>')
+<% end %>   
