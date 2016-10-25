@@ -20,7 +20,7 @@ class AnswersController < ApplicationController
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
     else
-      @answer.errors << ["Non-Author", "Can't edit not your own answer"]
+      @answer.errors.add(:base, message: 'Cannot edit answer if not author')
     end
   end
 
