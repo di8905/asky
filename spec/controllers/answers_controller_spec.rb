@@ -46,7 +46,8 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     context 'with valid attributes' do
       before do
-        patch :update, question_id: answer.question.id, id: answer, answer: { body: 'Custom not factored answer' }
+        sign_in answer.user
+        patch :update, question_id: answer.question.id, id: answer, answer: { body: 'Custom not factored answer' }, format: :js
       end
 
       it 'updates answer' do
@@ -54,14 +55,22 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to eq 'Custom not factored answer'
       end
 
-      it 'redirects to question' do
-        expect(response).to redirect_to answer.question
+      it 'renders the update js template' do
+        expect(response).to render_template 'update'
+      end
+    end
+    
+    context 'if update request from not author' do
+      it 'not saves answer' do
+        patch :update, question_id: answer.question.id, id: answer, answer: { body: 'Custom not factored answer' }, format: :js
+        answer.reload
+        expect(answer.body).to eq answer.body
       end
     end
 
     context 'with invalid attributes' do
       before do
-        patch :update, question_id: question.id, id: answer, answer: { body: nil }
+        patch :update, question_id: question.id, id: answer, answer: { body: nil }, format: :js
       end
 
       it 'does not update answer' do
@@ -69,8 +78,8 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to eq answer.body
       end
 
-      it 're-renders form edit' do
-        expect(response).to render_template 'questions/show'
+      it 'renders update js' do
+        expect(response).to render_template 'update'
       end
     end
   end

@@ -21,7 +21,7 @@ feature 'create answer', %q{
     fill_in 'Answer:', with: 'My test answer'
     click_on('Post your answer')
     
-    expect(page).to_not have_content('My test answer')
+    within('.answers') { expect(page).to_not have_content('My test answer') }
   end
   
   scenario 'authenticated user creates the invalid answer', js: true do

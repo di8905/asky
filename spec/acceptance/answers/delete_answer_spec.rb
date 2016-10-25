@@ -4,7 +4,9 @@ feature 'delete answer', %q{
   only author can delete his answer
 } do
     
-  let(:delete_action) { click_on('Delete answer', match: :first) } 
+  let(:delete_action) do
+    click_on('Delete answer', match: :first)
+  end
   
   context 'logged in user' do
     scenario 'author deletes his answer', js: true do

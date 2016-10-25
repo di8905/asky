@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_question, only: [:new, :create, :update]
+  before_action :set_question, only: [:new, :create]
   before_action :set_answer, only: [:update, :edit, :destroy]
 
   def new
@@ -17,10 +17,10 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if @answer.update(answer_params)
-      redirect_to @question, notice: "Your answer have been successfully updated"
+    if current_user.author_of?(@answer)
+      @answer.update(answer_params)
     else
-      render 'questions/show'
+      # TODO implement error handler
     end
   end
 

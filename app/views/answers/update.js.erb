@@ -1,0 +1,4 @@
+var answer_id = <%= @answer.id %>;
+$('form#edit-answer-form-' + answer_id).hide();
+$('*[data-answer-id="'+answer_id+'"]').show();
+$('#answer-' + answer_id + '-body').text('<%= j @answer.body %>')

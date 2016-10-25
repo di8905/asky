@@ -1,7 +1,16 @@
 - if answer.persisted?
   tr id="answer-#{answer.id}"
-    td= answer.body
+    td id="answer-#{answer.id}-body"
+      = answer.body
     td
       -if current_user.try(:author_of?, answer)
-        =link_to 'Delete answer', answer, method: :delete, remote: true, class: "btn btn-danger delete-answer-link", data: { answer_id: answer.id, confirm: 'Are you shure?'}
-        
+        =link_to 'Edit answer', '#', class: 'btn btn-info edit-answer-link', data: { answer_id: answer.id }
+      
+        =form_for answer, remote: true, html: { id: "edit-answer-form-#{answer.id}"} do |f|
+          .form-group
+            =f.label :body, 'Edit your answer:'
+            =f.text_area :body, class: 'form-control'
+          =f.submit 'Save', class: "btn btn-default"
+          
+        =link_to 'Delete answer', answer, method: :delete, remote: true, class: "btn btn-danger delete-answer-link", data: { answer_id: answer.id}
+          
