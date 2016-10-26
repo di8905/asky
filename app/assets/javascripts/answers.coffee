@@ -8,7 +8,10 @@ ready = ->
     $(this).hide()
     $('form#edit-answer-form-' + answer_id).show()
     
-  
+  $('#edit-question-link').click (e) ->
+    e.preventDefault()
+    $(this).hide()
+    $('form#edit-question-form').show()
     
 $(document).ready(ready)
 $(document).on('page:load', ready)

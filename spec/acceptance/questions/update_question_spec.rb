@@ -6,17 +6,18 @@ feature 'update question', %q{
   given(:question) { FactoryGirl.create(:question) }
   given(:user) { question.user }
   
-  scenario 'author edits and updates his question' do
+  scenario 'author edits and updates his question', js: true do
     log_in(user)
     visit question_path(question)
     click_link 'edit question'
-    fill_in 'Edit your question:', with: 'New test text for question'
+    fill_in 'Edit your question title:', with: 'New test question title'
+    fill_in 'Edit your question:', with: 'New test text for question body'
     click_on 'Save'
     
-    within '#question' do
-      expect page.to have_content 'New test text for question'
-      expect page.not_to have_content 'Save'
-    end
+    within('h1') { expect(page).to have_content 'New test question title' }
+    within('#question') { expect(page).to have_content 'New test text for question body' }
+    expect(page).not_to have_content 'Save'
+    expect(page).to have_content 'edit question'
   end
   
   scenario 'author tries to update his question with invalid attributes'

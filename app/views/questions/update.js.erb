@@ -1,0 +1,9 @@
+<% if @question.errors.present? %>
+  $('div#errors').html(" <%= j render 'common/errors', resource: @question %> ")
+<% else %>
+  $('div#errors').html('')
+  $('#edit-question-form').hide();
+  $('#edit-question-link').show();
+  $('#caption').text('<%= j @question.title %>')
+  $('#question').text('<%= j @question.body %>')
+<% end %>   

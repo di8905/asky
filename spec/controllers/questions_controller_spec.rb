@@ -116,7 +116,7 @@ RSpec.describe QuestionsController, type: :controller do
         end
 
         it 'redirects to updated question' do
-          expect(response).to redirect_to question
+          expect(response).to render_template 'update'
         end
       end
       
@@ -134,7 +134,7 @@ RSpec.describe QuestionsController, type: :controller do
         end
 
         it 're-renders edit view' do
-          expect(response).to render_template :edit
+          expect(response).to render_template 'update'
         end
       end
     end
@@ -145,7 +145,7 @@ RSpec.describe QuestionsController, type: :controller do
       
         it 'does not update question from not author' do
           question.reload
-          expect(question.title).to eq 'MyText must be at least 10 letters'
+          expect(question.body).to eq 'MyText must be at least 10 letters'
         end
         
         it 'renders update js' do
@@ -157,16 +157,13 @@ RSpec.describe QuestionsController, type: :controller do
       before { update_action }
       
       it 'does not update question' do
-        expect(question.title).to eq 'MyText must be at least 10 letters'
+        expect(question.body).to eq 'MyText must be at least 10 letters'
       end
       
-      it 'renders update js' do
-        expect(response).to render_template 'update'
+      it 'response unauthorised' do
+        expect(response.status).to eq (401)
       end
     end
-    
-
-    
   end
 
   describe 'DELETE #delete' do
