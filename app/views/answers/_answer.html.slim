@@ -12,5 +12,5 @@
             =f.text_area :body, class: 'form-control'
           =f.submit 'Save', class: "btn btn-default"
           
-        =link_to 'Delete answer', answer, method: :delete, remote: true, class: "btn btn-danger delete-answer-link", data: { answer_id: answer.id}
+        =link_to 'Delete answer', answer, method: :delete, remote: true, class: "btn btn-danger delete-answer-link", data: { answer_id: answer.id, confirm: 'Sure?' }
           

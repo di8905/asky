@@ -48,19 +48,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    sign_in_user
-    before { get :edit, id: question }
-
-    it 'assigns to @question variable appropriate question object' do
-      expect(assigns(:question)).to eq question
-    end
-
-    it 'renders the view edit' do
-      expect(response).to render_template :edit
-    end
-  end
-  
   describe 'GET #new' do
     sign_in_user
     before { get :new }
@@ -71,19 +58,6 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'renders the view new' do
       expect(response).to render_template :new
-    end
-  end
-
-  describe 'GET #edit' do
-    sign_in_user
-    before { get :edit, id: question }
-
-    it 'assigns to @question variable appropriate question object' do
-      expect(assigns(:question)).to eq question
-    end
-
-    it 'renders the view edit' do
-      expect(response).to render_template :edit
     end
   end
 
@@ -121,40 +95,78 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    sign_in_user
+    let(:update_action) do
+      patch :update, id: question, question: { title: 'More than 5 letters', body: 'More than 10 letters' }, format: :js
+    end
     
-    context 'update with valid attributes' do
-      it 'assigns to @question appropriate question' do
-        patch :update, id: question, question: valid_attributes
-        expect(assigns(:question)).to eq question
-      end
+    context 'logged in user' do
+      before { sign_in question.user }
 
-      it 'changes question with given attributes' do
-        patch :update, id: question, question: { title: 'More than 5 letters', body: 'More than 10 letters' }
-        question.reload
-        expect(question.title).to eq('More than 5 letters')
-        expect(question.body).to eq('More than 10 letters')
-      end
+      describe 'update with valid attributes' do
+        before { update_action }
+        
+        it 'assigns to @question appropriate question' do
+          expect(assigns(:question)).to eq question
+        end
 
-      it 'redirects to updated question' do
-        patch :update, id: question, question: valid_attributes
-        expect(response).to redirect_to question
+        it 'changes question with given attributes' do
+          question.reload
+          expect(question.title).to eq('More than 5 letters')
+          expect(question.body).to eq('More than 10 letters')
+        end
+
+        it 'redirects to updated question' do
+          expect(response).to redirect_to question
+        end
+      end
+      
+      describe 'update with invalid attributes' do
+        before { patch :update, id: question, question: invalid_attributes, format: :js }
+
+        it 'does not update question title with invalid attributes' do
+          question.reload
+          expect(question.title).to eq question.title
+        end
+        
+        it 'does not update question body with invalid attributes' do
+          question.reload
+          expect(question.body).to eq question.body
+        end
+
+        it 're-renders edit view' do
+          expect(response).to render_template :edit
+        end
       end
     end
-
-    context 'update with invalid attributes' do
-      before { patch :update, id: question, question: invalid_attributes }
-
-      it 'does not update question with invalid attributes' do
-        question.reload
-        expect(question.title).to eq question.title
-        expect(question.body).to eq question.body
+    
+    context 'non-author user' do
+      sign_in_user
+      before { update_action }
+      
+        it 'does not update question from not author' do
+          question.reload
+          expect(question.title).to eq 'MyText must be at least 10 letters'
+        end
+        
+        it 'renders update js' do
+          expect(response).to render_template 'update'
+        end
+    end
+    
+    context 'not authenticated user' do
+      before { update_action }
+      
+      it 'does not update question' do
+        expect(question.title).to eq 'MyText must be at least 10 letters'
       end
-
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
+      
+      it 'renders update js' do
+        expect(response).to render_template 'update'
       end
     end
+    
+
+    
   end
 
   describe 'DELETE #delete' do

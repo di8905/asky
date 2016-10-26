@@ -47,7 +47,11 @@ RSpec.describe AnswersController, type: :controller do
     context 'with valid attributes' do
       before do
         sign_in answer.user
-        patch :update, question_id: answer.question.id, id: answer, answer: { body: 'Custom not factored answer' }, format: :js
+        patch :update, id: answer, answer: { body: 'Custom not factored answer' }, format: :js
+      end
+
+      it 'assings appropriate answer to @answer' do
+        expect(assigns(:answer)).to eq answer
       end
 
       it 'updates answer' do
@@ -103,6 +107,11 @@ RSpec.describe AnswersController, type: :controller do
     context 'try to delete from not author' do
       it 'does not delete answer' do
         expect { delete_action }.not_to change(Answer, :count)
+      end
+      
+      it 'renders answers/destroy js template' do
+        delete_action
+        expect(response).to render_template('answers/destroy')
       end
     end 
   end

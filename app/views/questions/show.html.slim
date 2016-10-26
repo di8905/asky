@@ -1,7 +1,9 @@
 h1#caption= @question.title
 #errors  
-| Qestion:  
-strong= @question.body 
+#question
+  | Qestion:  
+  strong= @question.body
+= link_to 'edit question', edit_question_path(@question), class: 'edit-question-link', remote: true
 .answers
   table.table.table-striped#answers
     tbody

@@ -25,7 +25,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy if current_user.author_of?(@answer)
+    @answer.destroy if current_user.author_of?(@answer) #TODO make unathenticated user error handling
   end
 
   private

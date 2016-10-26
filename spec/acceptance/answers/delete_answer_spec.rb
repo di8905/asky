@@ -16,6 +16,7 @@ feature 'delete answer', %q{
       log_in(@user)
       visit question_path(@question)
       delete_action
+      page.driver.accept_js_confirms! 
       
       expect(page).not_to have_content(@answer.body)
     end
