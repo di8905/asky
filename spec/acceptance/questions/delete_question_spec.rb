@@ -6,11 +6,12 @@ feature 'delete question', %q{
   let(:delete_action) do
     visit question_path(@question)
     click_on('Delete question')
+    page.driver.accept_js_confirms!
   end
   before { @question = FactoryGirl.create(:question) }  
   
   context 'logged in user' do
-    scenario 'author deletes his question' do
+    scenario 'author deletes his question', js: true do
       @user = @question.user
       log_in(@user)
       delete_action  

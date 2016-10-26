@@ -20,7 +20,30 @@ feature 'update question', %q{
     expect(page).to have_content 'edit question'
   end
   
-  scenario 'author tries to update his question with invalid attributes'
-  scenario 'user does not see edit question button if he is not author'
-  scenario 'unauthenticated user does not see edit button'
+  scenario 'author tries to update his question with invalid attributes', js: true do
+    log_in(user)
+    visit question_path(question)
+    click_link 'edit question'
+    fill_in 'Edit your question title:', with: 'Ne'
+    fill_in 'Edit your question:', with: 'New '
+    click_on 'Save'
+  
+    within('#errors') do
+      expect(page).to have_content 'Body is too short'
+      expect(page).to have_content 'Title is too short'
+    end
+  end
+  
+  scenario 'user does not see edit question button if he is not author' do
+    log_in(user)
+    visit question_path( FactoryGirl.create(:question) )
+    
+    expect(page).not_to have_content 'edit question'
+  end
+  
+  scenario 'unauthenticated user does not see edit button' do
+    visit question_path( FactoryGirl.create(:question) )
+    
+    expect(page).not_to have_content 'edit question'
+  end
 end

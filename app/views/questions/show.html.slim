@@ -2,7 +2,8 @@ h1#caption= @question.title
 #errors  
 #question
   = @question.body
-= link_to 'edit question', '#', id: 'edit-question-link', remote: true
+-if current_user.try(:author_of?, @question)
+  = link_to 'edit question', '#', id: 'edit-question-link', remote: true
 = form_for @question, remote: true, html: { id: 'edit-question-form' } do |f|
   .form-group
     =f.label :title, 'Edit your question title:'
@@ -18,6 +19,6 @@ h1#caption= @question.title
 
 =render 'answers/answer_form', question: @question, answer: @answer || @question.answers.new
 -if current_user.try(:author_of?, @question)
-  =link_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger"
+  =link_to 'Delete question', question_path(@question), method: :delete, class: "btn btn-danger", data: { confirm: 'Sure?' }
 
      
