@@ -29,7 +29,7 @@ class QuestionsController < ApplicationController
     if current_user.author_of?(@question)
       @question.update(question_params)
     else
-      #TODO implement user error
+      @question.errors.add(:base, message: 'Cannot edit question if not author')
     end
   end
 

@@ -115,7 +115,7 @@ RSpec.describe QuestionsController, type: :controller do
           expect(question.body).to eq('More than 10 letters')
         end
 
-        it 'redirects to updated question' do
+        it 'renders update js template' do
           expect(response).to render_template 'update'
         end
       end
@@ -133,7 +133,7 @@ RSpec.describe QuestionsController, type: :controller do
           expect(question.body).to eq question.body
         end
 
-        it 're-renders edit view' do
+        it 'renders js template update' do
           expect(response).to render_template 'update'
         end
       end
