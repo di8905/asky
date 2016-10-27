@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { FactoryGirl.create(:question) }
+  let(:question) { FactoryGirl.create(:question_with_answers) }
   let(:valid_attributes) { FactoryGirl.attributes_for(:question) }
   let(:invalid_attributes) { FactoryGirl.attributes_for(:invalid_question) }
   let(:user) { question.user }
@@ -21,13 +21,19 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #show' do
     before { get :show, id: question }
-
+    
     it 'assigns to @question variable appropriate question object' do
       expect(assigns(:question)).to eq question
     end
     
     it 'assigns to @answers variable appropriate answers' do
       expect(assigns(:answers)).to eq question.answers
+    end
+    
+    it 'sorts the best answer first' do
+      question.answers[2].set_best 
+      
+      expect(assigns(:answers).first.best).to eq true
     end
 
     it 'renders the view show' do
