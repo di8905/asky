@@ -8,29 +8,22 @@ feature 'select best answer', %q{
   
   context 'author' do
     given(:user) { question.user }
-    
-    scenario 'of question selects one of answers as best', js: true do
+    before do 
       log_in user
       visit question_path(question)
-      within('#answer-3') do
-        click_link('select as best')
-      end
-      
-      within('#answer-3') do
-        expect(page).to have_content('span .glyphicon-ok')
-      end
-      
+      within('#answer-3') { click_link('select as best') }
     end
     
-    scenario 'changes his decision about best answer' do
-      log_in user
-      visit question_path(question)
-      within('#answer-4') do
-        click_link('select as best')
-      end
+    scenario 'of question selects one of answers as best', js: true do
+      within('#answer-3') { expect(page).to have_content('best answer') }
+    end
+    
+    scenario 'changes his decision about best answer', js: true do
+      within('#answer-3') { expect(page).to have_content('best answer') }
       
       within('#answer-4') do
-        expect(page).to have_content('span .glyphicon-ok')
+        click_link('select as best')
+        expect(page).to have_content('best answer')
       end
     end
   end

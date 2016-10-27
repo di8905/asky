@@ -29,7 +29,8 @@ class AnswersController < ApplicationController
   end
 
   def set_best
-    @answer.set_best 
+    @answer.set_best
+    @answers = @answer.question.answers.best_first
   end
 
   private

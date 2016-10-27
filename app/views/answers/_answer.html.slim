@@ -1,11 +1,12 @@
 - if answer.persisted?
   tr id="answer-#{answer.id}"
     td.best-column
+      = render 'answers/glyphicon_ok' if answer.best?
     td
       div id="answer-#{answer.id}-body"
         = answer.body
       .answer-buttons
-        -if current_user.try(:author_of?, @question)  
+        -if current_user.try(:author_of?, answer.question)  
           =link_to 'select as best', set_best_answer_path(answer), method: :patch, id: 'select-as-best-link', class: 'label label-success', remote: true
         -if current_user.try(:author_of?, answer)
           =link_to 'Edit answer', '#', class: 'label label-info edit-answer-link', data: { answer_id: answer.id }

@@ -2,6 +2,7 @@ h1#caption= @question.title
 #errors  
 #question
   = @question.body
+
 -if current_user.try(:author_of?, @question)
   = link_to 'edit question', '#', id: 'edit-question-link', class: 'label label-info', remote: true
 -if current_user.try(:author_of?, @question)
@@ -17,7 +18,7 @@ h1#caption= @question.title
 .answers
   table.table.table-striped#answers
     tbody
-      = render @question.answers
+      = render @answers
 
 =render 'answers/answer_form', question: @question, answer: @answer || @question.answers.new
 
