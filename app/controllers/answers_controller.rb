@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: [:new, :create]
-  before_action :set_answer, only: [:update, :edit, :destroy]
+  before_action :set_answer, only: [:update, :edit, :destroy, :set_best]
 
   def new
     @answer = @question.answers.new
@@ -26,6 +26,9 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy if current_user.author_of?(@answer) #TODO make unathenticated user error handling
+  end
+
+  def set_best
   end
 
   private

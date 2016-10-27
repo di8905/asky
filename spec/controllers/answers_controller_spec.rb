@@ -115,4 +115,22 @@ RSpec.describe AnswersController, type: :controller do
       end
     end 
   end
+
+  describe 'PATCH #set_best' do
+    let!(:question) { FactoryGirl.create(:question_with_answers) }
+    let(:best_answer) { question.answers[2] }
+    before { patch :set_best, id: best_answer, format: :js }
+
+    it 'assigns to @answer appropriate answer' do
+      expect(assigns(:answer)).to eq best_answer
+    end
+
+    it 'sets the best attribute to answer' do
+      expect(assigns(:answer).attributes(:best?)).to eq(true)
+    end
+
+    it 'renders set best js template' do
+      expect(response).to render_template 'set_best'
+    end
+  end
 end

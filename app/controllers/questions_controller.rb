@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_question, only: [:show, :update, :destroy]
+  before_action :set_question, only: [:show, :update, :destroy, :select_best_answer]
   
 
   def index
@@ -40,6 +40,11 @@ class QuestionsController < ApplicationController
     else
       redirect_to @question, alert: "No access to delete this question"
     end
+  end
+  
+  def select_best_answer
+    @answer = Answer.find(params[:answer_id])
+    render 'show.html.slim'
   end
 
   private
