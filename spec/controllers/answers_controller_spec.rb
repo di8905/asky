@@ -126,7 +126,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     it 'sets the best attribute to answer' do
-      expect(assigns(:answer).attributes(:best?)).to eq(true)
+      expect(assigns(:answer).best?).to eq(true)
     end
 
     it 'renders set best js template' do
