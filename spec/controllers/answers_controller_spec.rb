@@ -119,18 +119,32 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #set_best' do
     let!(:question) { FactoryGirl.create(:question_with_answers) }
     let(:best_answer) { question.answers[2] }
-    before { patch :set_best, id: best_answer, format: :js }
+    
+    context 'author sets best answer' do
+      before do
+        @request.env['devide.mapping'] = Devise.mappings[:user]
+        sign_in question.user
+        patch :set_best, id: best_answer, format: :js
+      end
+      
+      it 'assigns to @answer appropriate answer' do
+        expect(assigns(:answer)).to eq best_answer
+      end
 
-    it 'assigns to @answer appropriate answer' do
-      expect(assigns(:answer)).to eq best_answer
+      it 'sets the best attribute to answer' do
+        expect(assigns(:answer).best).to eq(true)
+      end
+
+      it 'renders set best js template' do
+        expect(response).to render_template 'set_best'
+      end
     end
-
-    it 'sets the best attribute to answer' do
-      expect(assigns(:answer).best?).to eq(true)
-    end
-
-    it 'renders set best js template' do
-      expect(response).to render_template 'set_best'
+    
+    context 'not author tries to set best' do
+      before { patch :set_best, id: best_answer, format: :js }
+      it 'does not set the best attribute to answer' do
+        expect(assigns(:answer).best?).not_to eq(true)
+      end
     end
   end
 end

@@ -32,11 +32,13 @@ feature 'select best answer', %q{
     scenario 'non-author cannot see select as best button' do
       log_in ( FactoryGirl.create(:user))
       visit question_path(question)
+      
       expect(page).not_to have_content('select as best')
     end
     
     scenario 'unauthenticated user cannot see select as best button' do
       visit question_path(question)
+      
       expect(page).not_to have_content('select as best')
     end
   end

@@ -12,15 +12,15 @@ RSpec.describe Answer, type: :model do
     let(:answer2) { question.answers[2] }
 
     context 'best answer is not set' do
-      it { expect(answer1.best?).to be_falsey }
-      it { expect(answer2.best?).to be_falsey }
+      it { expect(answer1.best?).to eq false }
+      it { expect(answer2.best?).to eq false }
     end
 
     context 'best answer set' do
       before { answer1.set_best }
       
       it { expect(answer1.best?).to eq true }
-      it { expect(answer2.best?).to be_falsey }
+      it { expect(answer2.best?).to eq false }
     end
 
     context 'best answer change' do
