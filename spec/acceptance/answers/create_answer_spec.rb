@@ -1,4 +1,4 @@
-require_relative '../acceptance_helper'
+require_relative '../acceptance_helper_overrides'
 
 feature 'create answer', %q{
   User can create answer while in question page

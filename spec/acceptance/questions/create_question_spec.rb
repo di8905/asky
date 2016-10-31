@@ -1,4 +1,4 @@
-require_relative '../acceptance_helper'
+require_relative '../acceptance_helper_overrides'
 
 feature 'create question', %q{
   Authenticated user can create question

@@ -1,4 +1,4 @@
-require_relative '../acceptance_helper'
+require_relative '../acceptance_helper_overrides'
 
 feature 'delete question', %q{
   only author can delete his question
