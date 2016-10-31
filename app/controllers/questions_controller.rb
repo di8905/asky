@@ -9,6 +9,8 @@ class QuestionsController < ApplicationController
 
   def show
     @answers = @question.answers.best_first
+    @answer ||= @question.answers.build
+    @answer.attachments.build
   end
 
   def new

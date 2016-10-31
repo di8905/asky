@@ -15,7 +15,13 @@
             .form-group
               =f.label :body, 'Edit your answer:'
               =f.text_area :body, class: 'form-control'
+              =f.fields_for :attachments do |a| 
+                =a.label :file
+                =a.file_field :file, class: 'form-control'
             =f.submit 'Save', class: "btn btn-default"
             
           =link_to 'Delete answer', answer, method: :delete, remote: true, class: "label label-danger delete-answer-link", data: { answer_id: answer.id, confirm: 'Sure?' }
+        ul 
+          -answer.attachments.each do |a|
+            li= link_to a.file.identifier, a.file.url  
           

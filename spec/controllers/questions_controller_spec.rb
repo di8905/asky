@@ -30,6 +30,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:answers)).to eq question.answers
     end
     
+    it 'builds new attachment for answer field' do
+      expect(assigns(:question))
+    end
+    
     it 'sorts the best answer first' do
       question.answers[2].set_best 
       
