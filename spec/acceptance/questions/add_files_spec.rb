@@ -1,4 +1,4 @@
-require_relative '../acceptance_helper_ovverrides'
+require_relative '../acceptance_helper_overrides'
 
 feature 'add file attachments', %q{
   In order to be able to illustrate
@@ -15,8 +15,9 @@ feature 'add file attachments', %q{
     fill_in 'Title', with: 'Test question title'
     fill_in 'Body', with: 'Test question body'
     attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+    click_on 'Create question'
     
-    expect(page).to have_content(rails_helper.rb)
+    expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/1/rails_helper.rb'
   end
   
 end

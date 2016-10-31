@@ -2,6 +2,10 @@ h1#caption= @question.title
 #errors  
 #question
   = @question.body
+h5 attachments:
+ul 
+  -@question.attachments.each do |a|
+    li= link_to a.file.identifier, a.file.url
 
 -if current_user.try(:author_of?, @question)
   = link_to 'edit question', '#', id: 'edit-question-link', class: 'label label-info', remote: true

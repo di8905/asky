@@ -1,0 +1,9 @@
+15:00 How to enter to server while test
+18.40 Binding.pry
+23.08 Test output to console setup
+25:20 Quiet assets gem
+31:30 Show routes
+32:14 Show models
+39:38 Log level down thru ENV
+50:30 New helper setup
+72:20 Spring preloader

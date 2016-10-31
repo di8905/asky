@@ -1,13 +1,16 @@
 h1 new question
 = render 'common/errors', resource: @question
 = form_for @question do |f|
-  .field
+  .form-group
     = f.label :title
     br
-    = f.text_field :title
-  .field  
-  = f.label :body
-  br
-  = f.text_area :body, cols: 50, rows: 15
-  .field
-  = f.submit 'Create question'
+    = f.text_field :title, class: 'form-control'
+  .form-group
+    = f.label :body
+    = f.text_area :body, cols: 50, rows: 15, class: 'form-control'
+  .form-group
+    = f.fields_for :attachments do |a|
+      = a.label :file
+      = a.file_field :file, class: "btn btn-default"
+  .form-group
+    = f.submit 'Create question', class: 'btn btn-default'
