@@ -1,0 +1,16 @@
+= nested_form_for question do |f|
+  .form-group
+    = f.label :title
+    br
+    = f.text_field :title, class: 'form-control'
+  .form-group
+    = f.label :body
+    = f.text_area :body, cols: 50, rows: 15, class: 'form-control'
+  .form-group
+    = f.fields_for :attachments do |a|
+      = a.label :file
+      = a.file_field :file
+      = a.link_to_remove 'remove file'
+    = f.link_to_add 'add file', :attachments
+  .form-group
+    = f.submit 'Create question', class: 'btn btn-default'

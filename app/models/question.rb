@@ -7,5 +7,5 @@ class Question < ActiveRecord::Base
   validates :body, presence: true, length: { minimum: 10 }
   validates :user_id, presence: true
   
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, allow_destroy: true
 end

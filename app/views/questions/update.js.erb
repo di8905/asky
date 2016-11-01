@@ -5,5 +5,6 @@
   $('#edit-question-form').hide();
   $('#edit-question-link').show();
   $('#caption').text('<%= j @question.title %>')
-  $('#question').text('<%= j @question.body %>')
+  $('#question').html(" <%= j render 'question_body', question: @question %>")
+  ready
 <% end %>   
