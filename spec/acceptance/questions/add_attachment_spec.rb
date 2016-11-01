@@ -35,11 +35,11 @@ feature 'add file attachments', %q{
       click_on 'edit question'
       fill_in 'Edit your question title:', with: 'Test question title'
       fill_in 'Edit your question:', with: 'Test question body'
-      click_on('add file')
+      within('#edit-question-form') { click_on('add file') }
     end
     
     scenario 'user adds multiple files when edits the question', js: true do
-      click_on('add file')
+      within('#edit-question-form') { click_on('add file') }
       inputs = all('input[type="file"]')
       inputs[0].set("#{Rails.root}/public/500.html")
       inputs[1].set("#{Rails.root}/public/404.html}")

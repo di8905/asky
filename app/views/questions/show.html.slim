@@ -1,8 +1,13 @@
 h1#caption= @question.title
 #errors  
 #question
-  = render 'question_body', question: @question
-
+  #question-body
+    p= @question.body
+  div id="question-#{@question.id}-attachments"
+    = render 'attachments', question: @question
+  #question-buttons
+    = render 'buttons', question: @question
+  
 = nested_form_for @question, remote: true, html: { id: 'edit-question-form' } do |f|
   .form-group
     =f.label :title, 'Edit your question title:'
@@ -12,16 +17,30 @@ h1#caption= @question.title
     =f.text_area :body, class: 'form-control'
   .form-group
     = f.fields_for :attachments do |a|
-      = a.label :file
-      = a.file_field :file
-      = a.link_to_remove 'remove'
+        = a.label :file
+        = a.file_field :file
+        = a.link_to_remove 'remove'
     =f.link_to_add 'add file', :attachments
   =f.submit 'Save', class: 'btn btn-default'
+
 .answers
   table.table.table-striped#answers
     tbody
       = render @answers
 
-=render 'answers/answer_form', question: @question, answer: @answer
+= render 'common/errors', resource: @answer
 
+= nested_form_for [@question, @answer], remote: true do |f|
+  .form-group
+  = f.label :body, 'Answer:'
+  .form-group
+  = f.text_area :body, class: 'form-control'
+  .form-group
+  = f.fields_for :attachments do |a|
+    =a.label :file
+    =a.file_field :file
+    =a.link_to_remove 'remove'
+  = f.link_to_add 'add file', :attachments
+  .form-group
+  = f.submit 'Post your answer', class: 'btn btn-success'
      
