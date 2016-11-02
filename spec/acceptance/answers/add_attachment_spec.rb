@@ -26,15 +26,4 @@ feature 'add file attachment', %q{
       expect(page).to have_link '404.html_', href: '/uploads/attachment/file/2/404.html_'
     end
   end
-  
-  scenario 'user tries to save answer with empty attach', js: true do
-    fill_in 'Answer:', with: 'Test answer with file attachment'
-    within('.new_answer') do
-      click_on 'add file'
-      click_on 'Post your answer'
-    end
-    
-    expect(page).to have_content("Attachments file can't be blank")
-  end
-  
 end

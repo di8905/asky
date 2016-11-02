@@ -6,7 +6,7 @@ class Answer < ActiveRecord::Base
   validates :body, presence: true, length: { minimum: 3 }
   scope :best_first, -> { order('best DESC') }
   
-  accepts_nested_attributes_for :attachments, allow_destroy: true
+  accepts_nested_attributes_for :attachments, allow_destroy: true, reject_if: :all_blank
     
   def set_best
     transaction do
