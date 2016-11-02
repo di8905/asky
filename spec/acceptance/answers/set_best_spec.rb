@@ -1,4 +1,4 @@
-require_relative '../acceptance_helper'
+require_relative '../acceptance_helper_overrides'
 
 feature 'select best answer', %q{
   To improve answer quality, author of question can select one answer as best.

@@ -1,13 +1,3 @@
 h1 new question
 = render 'common/errors', resource: @question
-= form_for @question do |f|
-  .field
-    = f.label :title
-    br
-    = f.text_field :title
-  .field  
-  = f.label :body
-  br
-  = f.text_area :body, cols: 50, rows: 15
-  .field
-  = f.submit 'Create question'
+=render 'form', question: @question

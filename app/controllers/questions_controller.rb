@@ -9,6 +9,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answers = @question.answers.best_first
+    @answer ||= @question.answers.build
   end
 
   def new
@@ -54,7 +55,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, attachments_attributes: [:file, :_destroy, :id])
   end
 
 end

@@ -30,6 +30,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:answers)).to eq question.answers
     end
     
+    it 'builds new attachment for answer field' do
+      expect(assigns(:question))
+    end
+    
     it 'sorts the best answer first' do
       question.answers[2].set_best 
       
@@ -48,7 +52,7 @@ RSpec.describe QuestionsController, type: :controller do
     it 'assings new Question to @question variable' do
       expect(assigns(:question)).to be_a_new(Question)
     end
-
+    
     it 'renders the view new' do
       expect(response).to render_template :new
     end

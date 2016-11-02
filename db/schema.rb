@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161028101347) do
+ActiveRecord::Schema.define(version: 20161031112112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 20161028101347) do
     t.index ["user_id"], name: "index_answers_on_user_id", using: :btree
   end
 
+  create_table "attachments", force: :cascade do |t|
+    t.string   "file"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "attachable_id"
+    t.string   "attachable_type"
+    t.index ["attachable_id", "attachable_type"], name: "index_attachments_on_attachable_id_and_attachable_type", using: :btree
+    t.index ["attachable_id"], name: "index_attachments_on_attachable_id", using: :btree
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
@@ -41,7 +51,6 @@ ActiveRecord::Schema.define(version: 20161028101347) do
     t.string   "name"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.string   "password"
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"

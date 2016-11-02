@@ -37,6 +37,10 @@ gem 'launchy'
 gem 'therubyracer'
 gem 'twitter-bootstrap-rails'
 gem 'rails-controller-testing'
+gem 'carrierwave'
+gem 'remotipart'
+gem 'nested_form'
+gem 'jquery-turbolinks'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

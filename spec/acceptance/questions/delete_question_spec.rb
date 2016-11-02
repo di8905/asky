@@ -1,11 +1,11 @@
-require_relative '../acceptance_helper'
+require_relative '../acceptance_helper_overrides'
 
 feature 'delete question', %q{
   only author can delete his question
 } do
   let(:delete_action) do
     visit question_path(@question)
-    click_on('Delete question')
+    click_on('delete question')
     page.driver.accept_js_confirms!
   end
   before { @question = FactoryGirl.create(:question) }  

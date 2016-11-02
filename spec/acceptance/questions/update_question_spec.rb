@@ -1,4 +1,4 @@
-require_relative '../acceptance_helper'
+require_relative '../acceptance_helper_overrides'
 
 feature 'update question', %q{
   to be able to correct mistakes, author can edit his question
