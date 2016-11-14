@@ -13,7 +13,7 @@ feature 'add file attachments', %q{
   
   scenario 'user adds multiple files when asks new question', js: true do
     visit questions_path
-    click_on 'New question'
+    click_on 'New question', match: :first
     fill_in 'Title', with: 'Test question title'
     fill_in 'Body', with: 'Test question body'
     click_on('add file')

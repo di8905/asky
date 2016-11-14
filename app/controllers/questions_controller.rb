@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_question, only: [:show, :update, :destroy, :select_best_answer]
+  before_action :set_question, only: [:show, :update, :destroy, :select_best_answer, :vote]
   
 
   def index
@@ -33,6 +33,9 @@ class QuestionsController < ApplicationController
       @question.errors.add(:base, message: 'Cannot edit question if not author')
     end
   end
+  
+  def vote
+  end
 
   def destroy
     if current_user.author_of?(@question)
@@ -55,7 +58,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, attachments_attributes: [:file, :_destroy, :id])
+    params.require(:question).permit(:value, :title, :body, attachments_attributes: [:file, :_destroy, :id])
   end
 
 end

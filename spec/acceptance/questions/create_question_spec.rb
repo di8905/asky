@@ -10,7 +10,7 @@ feature 'create question', %q{
     log_in(user)
     
     visit questions_path
-    click_on 'New question'
+    click_on 'New question', match: :first
     fill_in 'Title', with: 'Test question title'
     fill_in 'Body', with: 'Test question body'
     click_on 'Create question'
@@ -23,7 +23,7 @@ feature 'create question', %q{
   scenario 'authenticated user creates the invalid question' do
     log_in(user)
     visit questions_path
-    click_on 'New question'
+    click_on 'New question', match: :first
     fill_in 'Title', with: ' '
     fill_in 'Body', with: ' '
     click_on 'Create question'

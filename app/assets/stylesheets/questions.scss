@@ -5,3 +5,11 @@
 form#edit-question-form {
   display: none;
 }
+
+#question-rating .rating {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+
+}

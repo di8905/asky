@@ -30,9 +30,8 @@ html lang="en"
           .navbar-collapse.collapse.navbar-responsive-collapse
             ul.nav.navbar-nav
               li= link_to "Questions list", questions_path
-              li= link_to "Link 2", "/path2"
-              li= link_to "Link 3", "/path3"
               -if user_signed_in?
+                li= link_to 'New question', new_question_path
                 li= link_to "Log out (#{current_user.name})", destroy_user_session_path, method: :delete
               -else  
                 li= link_to "Sign up", new_user_registration_path
@@ -40,17 +39,17 @@ html lang="en"
 
     .container
       .row
-        .col-lg-9
+        .col-lg-12
           = bootstrap_flash
           = yield
-        .col-lg-3
-          .well.sidebar-nav
-            h3 Sidebar
-            ul.nav.nav-list
-              li.nav-header Sidebar
-              li= link_to "Link 1", "/path1"
-              li= link_to "Link 2", "/path2"
-              li= link_to "Link 3", "/path3"
+        / .col-lg-3
+        /   .well.sidebar-nav
+        /     h3 Sidebar
+        /     ul.nav.nav-list
+        /       li.nav-header Sidebar
+        /       li= link_to "Link 1", "/path1"
+        /       li= link_to "Link 2", "/path2"
+        /       li= link_to "Link 3", "/path3"
 
       footer
         p &copy; Company 2016

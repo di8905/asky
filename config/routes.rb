@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root to: "questions#index"
   
   resources :questions, except: :edit do
+    patch 'vote', on: :member
     resources :answers, only: [:create, :update, :destroy], shallow: true do
       patch 'set_best', on: :member
     end

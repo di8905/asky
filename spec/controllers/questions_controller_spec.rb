@@ -4,6 +4,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { FactoryGirl.create(:question_with_answers) }
   let(:valid_attributes) { FactoryGirl.attributes_for(:question) }
   let(:invalid_attributes) { FactoryGirl.attributes_for(:invalid_question) }
+  let(:another_user) { FactoryGirl.create(:user) }
   let(:user) { question.user }
 
   describe 'GET #index' do
@@ -101,6 +102,26 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, question: invalid_attributes
         expect(response).to render_template :new
       end
+    end
+  end
+  
+  describe 'PATCH #vote' do
+    context 'logged in user' do
+    sign_in_user
+    before do
+      patch :vote, id: question, value: 'dislike', format: :js
+    end
+    
+      it 'finds appropriate question' do
+        expect(assigns(:question)).to eq question
+      end
+      
+      it 'invokes vote method'
+      it 'renders vote template'
+    end
+    
+    context 'not logged in user' do
+      it 'renders vote template'
     end
   end
 
