@@ -108,20 +108,22 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #vote' do
     context 'logged in user' do
     sign_in_user
-    before do
-      patch :vote, id: question, value: 'dislike', format: :js
-    end
     
-      it 'finds appropriate question' do
-        expect(assigns(:question)).to eq question
+      it 'invokes vote method' do
+        expect { patch :vote, id: question, vote: 1, format: :js }.to change(Vote, :count).by(1)
       end
       
-      it 'invokes vote method'
-      it 'renders vote template'
+      it 'renders vote template' do
+        patch :vote, id: question, vote: 1, format: :js
+        
+        expect(response).to render_template 'vote'
+      end
     end
     
     context 'not logged in user' do
-      it 'renders vote template'
+      it 'does not record vote' do
+        expect { patch :vote, id: question, value: 1, format: :js }.not_to change(Vote, :count)
+      end
     end
   end
 

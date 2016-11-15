@@ -35,6 +35,7 @@ class QuestionsController < ApplicationController
   end
   
   def vote
+    @question.vote(current_user.id, params[:value])
   end
 
   def destroy
