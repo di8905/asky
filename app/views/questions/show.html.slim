@@ -7,12 +7,11 @@ h1#caption= @question.title
     = render 'attachments', question: @question
   #question-buttons
     = render 'buttons', question: @question
-    #question-rating
-      |rating:  
+    .question-rating
       =link_to '-', vote_question_path(@question, value: -1), method: :patch, remote: true
-      .rating
-        = @question.rating
+      =<>@question.rating
       =link_to '+', vote_question_path(@question, value: 1), method: :patch, remote: true
+
         
   
 = nested_form_for @question, remote: true, html: { id: 'edit-question-form' } do |f|

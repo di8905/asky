@@ -6,10 +6,9 @@ form#edit-question-form {
   display: none;
 }
 
-#question-rating .rating {
+.question-rating {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 60px;
   text-align: center;
-
+  float: right;
 }
