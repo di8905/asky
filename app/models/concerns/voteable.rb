@@ -13,7 +13,6 @@ module Voteable
     
     def rating
       sum = 0
-      reload
       self.votes.each do |record|
         sum += record.vote
       end

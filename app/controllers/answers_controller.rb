@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: [:new, :create]
-  before_action :set_answer, only: [:update, :edit, :destroy, :set_best]
+  before_action :set_answer, only: [:update, :edit, :destroy, :set_best, :vote]
 
   def new
     @answer = @question.answers.new
@@ -33,6 +33,17 @@ class AnswersController < ApplicationController
     if current_user.author_of?(@answer.question)
       @answer.set_best
       @answers = @answer.question.answers.best_first
+    end
+  end
+  
+  def vote
+    @answer.vote(current_user.id, params[:value])
+    respond_to do |format|
+      if @answer.errors.any?
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      else
+        format.json { render json: { id: @answer.id, rating: @answer.rating}}
+      end
     end
   end
 

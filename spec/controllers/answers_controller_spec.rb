@@ -87,6 +87,12 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+  
+  describe 'PATCH #vote' do
+    it 'invokes vote method' do
+      expect { patch :vote, id: answer, vote: 1, format: :json }.to change(Vote, :count).by(1)
+    end
+  end
 
   describe 'DELETE #delete' do
     let(:delete_action) { delete :destroy, question_id: answer.question.id, id: answer, format: :js }

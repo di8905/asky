@@ -106,25 +106,10 @@ RSpec.describe QuestionsController, type: :controller do
   end
   
   describe 'PATCH #vote' do
-    context 'logged in user' do
     sign_in_user
-    
       it 'invokes vote method' do
         expect { patch :vote, id: question, vote: 1, format: :js }.to change(Vote, :count).by(1)
       end
-      
-      it 'renders vote template' do
-        patch :vote, id: question, vote: 1, format: :js
-        
-        expect(response).to render_template 'vote'
-      end
-    end
-    
-    context 'not logged in user' do
-      it 'does not record vote' do
-        expect { patch :vote, id: question, value: 1, format: :js }.not_to change(Vote, :count)
-      end
-    end
   end
 
   describe 'PATCH #update' do
