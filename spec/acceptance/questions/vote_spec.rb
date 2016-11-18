@@ -37,10 +37,12 @@ feature 'vote for question', %q{
     scenario 'user tries to vote twice', js: true do
       within('.question-rating') do
         click_on('+')
+        sleep(1)
         click_on('+')
       end
 
       within('.question-rating') { expect(page).to have_content('1') }
+      expect(page).to have_content('Already voted this!')
     end
     
     scenario 'user can revoke his decision and re-vote', js: true do
@@ -52,6 +54,15 @@ feature 'vote for question', %q{
       within('.question-rating') { expect(page).to have_content('0') }
     end
   end  
+  
+  scenario 'user cannot vote own question', js: true do
+    log_in question.user 
+    visit question_path(question)
+    within('.question-rating') { click_on('+') }
+    
+    expect(page).to have_content("Can't vote your own!")
+    within('.question-rating') { expect(page).to have_content('0')}
+  end
   
   context 'not logged in user' do
     scenario 'not logged in user cannot see vote buttons' do
