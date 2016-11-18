@@ -13,6 +13,11 @@ ready = ->
     $(this).hide()
     $('form#edit-question-form').show()
     
+  $('.question-rating > a').bind 'ajax:success', (e, data, status, xhr) ->
+    response = $.parseJSON(xhr.responseText)
+    $('#question-' + response.id + '-rating').html(response.rating)
+    console.log(response)
+    
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on("turbolinks:load", ready)

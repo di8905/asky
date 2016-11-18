@@ -36,6 +36,9 @@ class QuestionsController < ApplicationController
   
   def vote
     @question.vote(current_user.id, params[:value])
+    respond_to do |format|
+      format.json { render json: { id: @question.id, rating: @question.rating} }
+    end
   end
 
   def destroy
