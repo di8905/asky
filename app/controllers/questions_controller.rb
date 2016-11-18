@@ -36,8 +36,13 @@ class QuestionsController < ApplicationController
   
   def vote
     @question.vote(current_user.id, params[:value])
+    
     respond_to do |format|
-      format.json { render json: { id: @question.id, rating: @question.rating} }
+      if @question.errors.any?
+        format.json { render json: @question.errors.full_messages, status: :unprocessable_entity }
+      else
+        format.json { render json: { id: @question.id, rating: @question.rating}}
+      end
     end
   end
 

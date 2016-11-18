@@ -5,7 +5,7 @@ module Voteable
     
     def vote(user_id, vote)
       if self.user_id == user_id
-        self.errors.add(:base, message: "Can't vote your own!")
+        self.errors.add(:base, "Can't vote your own!")
       else  
         process_vote(user_id, vote.to_i)
       end
