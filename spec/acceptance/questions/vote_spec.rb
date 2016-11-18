@@ -8,50 +8,67 @@ feature 'vote for question', %q{
   given(:question) { FactoryGirl.create(:question) }
   given(:user) { FactoryGirl.create(:user) }
 
-  scenario 'anybody can see question rating' do
-    visit question_path(question)
-    
-    within('.question-rating') do
-      expect(page).to have_content('0')
-    end
-  end
-  
-  scenario 'logged in user rates the question with like', js: true do
+  context 'logged in user' do
+  before do
     log_in user
     visit question_path(question)
-    within('.question-rating') do
-      click_on('+')
-    end
-    
-    within('.question-rating') do
-      expect(page).to have_content('1')
-    end
   end
   
-  scenario 'logged in user rates the question with dislike', js: true do
-    log_in user
-    visit question_path(question)
-    within('.question-rating') do
-      click_on('-')
+    scenario 'user rates the question with like', js: true do
+      within('.question-rating') do
+        click_on('+')
+      end
+      
+      within('.question-rating') do
+        expect(page).to have_content('1')
+      end
     end
     
-    within('.question-rating') do
-      expect(page).to have_content('-1')
-    end
-  end
-  
-  scenario 'user tries to vote twice' do
-    log_in user
-    visit question_path(question)
-    within('.question-rating') do
-      click_on('+')
-      click_on('+')
+    scenario 'user rates the question with dislike', js: true do
+      within('.question-rating') do
+        click_on('-')
+      end
+      
+      within('.question-rating') do
+        expect(page).to have_content('-1')
+      end
     end
     
-        
-  end
+    scenario 'user tries to vote twice', js: true do
+      within('.question-rating') do
+        click_on('+')
+        click_on('+')
+      end
+
+      within('.question-rating') { expect(page).to have_content('1') }
+    end
+    
+    scenario 'user can revoke his decision and re-vote', js: true do
+      within('.question-rating') do
+        click_on('+')
+        click_on('-')
+      end
+      
+      within('.question-rating') { expect(page).to have_content('0') }
+    end
+  end  
   
-  scenario 'not logged in user cannot see vote buttons'
-  scenario 'one user cannot rate one question twice or more'
-  scenario 'user can revoke his decision and re-vote'
+  context 'not logged in user' do
+    scenario 'not logged in user cannot see vote buttons' do
+      visit question_path(question)
+      
+      within('.question-rating') do
+        expect(page).not_to have_content('+')
+        expect(page).not_to have_content('-')
+      end
+    end
+    
+    scenario 'anybody can see question rating' do
+      visit question_path(question)
+      
+      within('.question-rating') do
+        expect(page).to have_content('0')
+      end
+    end
+  end
 end

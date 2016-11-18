@@ -8,10 +8,12 @@ h1#caption= @question.title
   #question-buttons
     = render 'buttons', question: @question
     .question-rating
-      =link_to '-', vote_question_path(@question, value: -1), method: :patch, remote: true, data: { type: :json }
+      -if current_user
+        =link_to '-', vote_question_path(@question, value: -1), method: :patch, remote: true, data: { type: :json }
       span id="question-#{@question.id}-rating"
         =<>@question.rating
-      =link_to '+', vote_question_path(@question, value: 1), method: :patch, remote: true
+      -if current_user  
+        =link_to '+', vote_question_path(@question, value: 1), method: :patch, remote: true
 
         
   
