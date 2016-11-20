@@ -3,7 +3,7 @@ module Votes
   
   def vote
     set_voteable
-    @voteable.vote(current_user.id, params[:value])
+    @voteable.vote(current_user, params[:value])
     respond_to do |format|
       if @voteable.errors.any?
         format.json { render json: @voteable.errors.full_messages, status: :unprocessable_entity }

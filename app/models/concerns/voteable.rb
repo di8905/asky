@@ -3,11 +3,11 @@ module Voteable
   included do
     has_many :votes, as: :voteable, dependent: :destroy
     
-    def vote(user_id, vote)
-      if self.user_id == user_id
+    def vote(user, vote)
+      if self.user.id == user.id
         self.errors.add(:base, "Can't vote your own!")
       else  
-        process_vote(user_id, vote.to_i)
+        process_vote(user, vote.to_i)
       end
     end
     
@@ -21,10 +21,10 @@ module Voteable
     
     private
     
-    def process_vote(user_id, vote)
-      vote_collection = self.votes.where(user_id: user_id)
+    def process_vote(user, vote)
+      vote_collection = self.votes.where(user_id: user.id)
       if vote_collection.empty?
-        self.votes.new(user_id: user_id, vote: vote).save!
+        self.votes.new(user_id: user, vote: vote).save!
       else
         self.errors.add(:base, 'Already voted this!') if vote_collection.first.vote == vote
         vote_collection.first.destroy! if vote_collection.first.vote + vote == 0
