@@ -7,7 +7,8 @@ module Voteable
       if self.user.id == user.id
         self.errors.add(:base, "Can't vote your own!")
       else  
-        process_vote(user, vote.to_i)
+        vote.to_i > 0 ? vote = 1 : vote = -1
+        process_vote(user, vote)
       end
     end
     
@@ -27,7 +28,7 @@ module Voteable
         self.votes.new(user_id: user.id, vote: vote).save!
       else
         self.errors.add(:base, 'Already voted this!') if vote_collection.first.vote == vote
-        vote_collection.first.destroy! if vote_collection.first.vote + vote == 0
+        vote_collection.first.destroy! if vote_collection.first.vote + vote = 0
       end
     end
   end
