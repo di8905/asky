@@ -24,7 +24,7 @@ module Voteable
     def process_vote(user, vote)
       vote_collection = self.votes.where(user_id: user.id)
       if vote_collection.empty?
-        self.votes.new(user_id: user, vote: vote).save!
+        self.votes.new(user_id: user.id, vote: vote).save!
       else
         self.errors.add(:base, 'Already voted this!') if vote_collection.first.vote == vote
         vote_collection.first.destroy! if vote_collection.first.vote + vote == 0
