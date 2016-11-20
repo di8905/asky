@@ -5,7 +5,7 @@ feature 'vote for answer', %q{
   for better question assessment and rating
 } do
 
-  given(:answer) { FactoryGirl.create(:answer) }
+  given!(:answer) { FactoryGirl.create(:answer) }
   given(:user) { FactoryGirl.create(:user) }
 
   context 'logged in user' do
@@ -77,8 +77,7 @@ feature 'vote for answer', %q{
     scenario 'anybody can see question rating' do
       visit question_path(answer.question)
 
-
-      within('#answer-1') do
+      within("#answer-#{answer.id}") do
         expect(page).to have_content('0')
       end
     end

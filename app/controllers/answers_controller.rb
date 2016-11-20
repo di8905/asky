@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  include Votes
   before_action :authenticate_user!
   before_action :set_question, only: [:new, :create]
   before_action :set_answer, only: [:update, :edit, :destroy, :set_best, :vote]
@@ -36,17 +37,6 @@ class AnswersController < ApplicationController
     end
   end
   
-  def vote
-    @answer.vote(current_user.id, params[:value])
-    respond_to do |format|
-      if @answer.errors.any?
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-      else
-        format.json { render json: { id: @answer.id, rating: @answer.rating}}
-      end
-    end
-  end
-
   private
 
   def set_answer

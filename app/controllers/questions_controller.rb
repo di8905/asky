@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
+  include Votes
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :update, :destroy, :select_best_answer, :vote]
-  
 
   def index
     @questions = Question.all
@@ -34,18 +34,6 @@ class QuestionsController < ApplicationController
     end
   end
   
-  def vote
-    @question.vote(current_user.id, params[:value])
-    
-    respond_to do |format|
-      if @question.errors.any?
-        format.json { render json: @question.errors.full_messages, status: :unprocessable_entity }
-      else
-        format.json { render json: { id: @question.id, rating: @question.rating}}
-      end
-    end
-  end
-
   def destroy
     if current_user.author_of?(@question)
       @question.destroy
