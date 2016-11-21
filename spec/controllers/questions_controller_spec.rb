@@ -108,7 +108,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #vote' do
     sign_in_user
       it 'invokes vote method' do
-        expect { patch :vote, id: question, vote: 1, format: :js }.to change(Vote, :count).by(1)
+        expect { patch :vote, id: question, vote: 1, format: :json }.to change(Vote, :count).by(1)
       end
   end
 

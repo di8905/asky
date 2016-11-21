@@ -56,11 +56,13 @@ feature 'vote for answer', %q{
   scenario 'user cannot vote own answer', js: true do
     log_in answer.user 
     visit question_path(answer.question)
-    within("#answer-1") do 
+    
+    within("#answer-#{answer.id}") do 
       click_on('+') 
       
       expect(page).to have_content('0')
     end
+    
     expect(page).to have_content("Can't vote your own!")
   end
   
