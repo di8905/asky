@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
   include Votes
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :update, :destroy, :select_best_answer, :vote]
+  after_action :publish_question, only: [:create]
 
   def index
     @questions = Question.all
@@ -52,6 +53,16 @@ class QuestionsController < ApplicationController
 
   def set_question
     @question = Question.find(params[:id])
+  end
+  
+  def publish_question
+    return if @question.errors.any?
+    ActionCable.server.broadcast('questions',
+      ApplicationController.render(
+      partial: 'questions/question',
+      locals: { question: @question }
+      )
+    )
   end
 
   def question_params

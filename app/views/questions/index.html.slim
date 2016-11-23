@@ -2,7 +2,7 @@ p
   =link_to 'New question', new_question_path
   
 h1 Questions list
-table.table.table-hover
+table.table.table-hover#questions-list
   thead
     tr 
       th Answers
@@ -12,5 +12,5 @@ table.table.table-hover
       = render @questions
     -else
       tr 
-        td List is empty
+        td
     
