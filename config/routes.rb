@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   end
   
   resources :attachments, only: [:destroy]
+  
+  mount ActionCable.server => '/cable'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
