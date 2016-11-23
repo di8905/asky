@@ -39,4 +39,32 @@ feature 'create question', %q{
     expect(current_path).to eq new_user_session_path
   end
   
+  context 'different sessions' do
+    scenario 'created question appears on another user\'s question list', js: true do
+      Capybara.using_session('user') do
+        log_in(user)
+        visit questions_path
+      end
+      
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+      
+      Capybara.using_session('user') do
+        click_on 'New question', match: :first
+        fill_in 'Title', with: 'Test action cable question'
+        fill_in 'Body', with: 'Test question body'
+        click_on 'Create question'
+        
+        expect(page).to have_content 'Your question successfully added'
+        expect(page).to have_content 'Test action cable question'
+        expect(page).to have_content 'Test question body'
+      end
+      
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'Test action cable question'
+      end
+    end
+  end
+  
 end

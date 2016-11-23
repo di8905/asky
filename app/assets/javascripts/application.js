@@ -19,6 +19,8 @@
 //= require turbolinks
 //= require_tree .
 //= require action_cable
+//= require answers.js
+
 
 var App = App || {};
 App.cable = ActionCable.createConsumer();

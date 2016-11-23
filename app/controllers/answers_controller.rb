@@ -3,6 +3,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: [:new, :create]
   before_action :set_answer, only: [:update, :edit, :destroy, :set_best, :vote]
+  after_action :publish_answer, only: [:create]
 
   def new
     @answer = @question.answers.new
@@ -41,6 +42,11 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.find(params[:id])
+  end
+  
+  def publish_answer
+    return if @answer.errors.any?
+    ActionCable.server.broadcast('answers', @answer.body)
   end
 
   def set_question
