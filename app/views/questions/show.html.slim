@@ -1,6 +1,6 @@
 h1#caption= @question.title
 #errors  
-#question
+#question data-id="#{@question.id}"
   #question-body
     p= @question.body
   div id="question-#{@question.id}-attachments"

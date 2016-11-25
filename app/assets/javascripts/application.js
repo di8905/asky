@@ -17,10 +17,6 @@
 //= require jquery_nested_form
 //= require twitter/bootstrap
 //= require turbolinks
-//= require_tree .
 //= require action_cable
-//= require answers.js
-
-
-var App = App || {};
-App.cable = ActionCable.createConsumer();
+//= require cable.coffee
+//= require_tree .
