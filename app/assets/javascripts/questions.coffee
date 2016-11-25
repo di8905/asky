@@ -2,6 +2,7 @@ App.questions = App.cable.subscriptions.create 'QuestionsChannel',
   connected: ->
     console.log 'subscribed to questions channel'
     @installPageChangeCallback()
+    @followQuestionsStream()
     return
   received: (data) ->
     $('#questions-list > tbody:last-child').append data
