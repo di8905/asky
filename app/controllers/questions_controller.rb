@@ -11,6 +11,7 @@ class QuestionsController < ApplicationController
   def show
     @answers = @question.answers.best_first
     @answer ||= @question.answers.build
+    gon.current_user_id = current_user.id if user_signed_in?
   end
 
   def new

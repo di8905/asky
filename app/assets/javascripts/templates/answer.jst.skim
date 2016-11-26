@@ -1,3 +1,18 @@
-tr 
+- question_user_id = @data['question_user_id']
+- answer_user_id = @data['answer_user_id']
+- answer = @data['answer']
+
+tr id="answer-#{answer.id}"
+  td.best-column
   td 
-    = @answer.body
+    div id="answer-#{answer.id}-body"
+      = answer.body
+      = gon.current_user
+    .answer-buttons
+      -if gon.current_user_id == question_user_id
+        a> href="answers/#{answer.id}/set-best" data-method="patch" id='select-as-best-link' data-remote="true" rel="nofollow" select as best
+        | |
+      -if gon.current_user_id == answer_user_id
+        a<> href="#" class="edit-answer-link"  ququ edit answer
+        | |
+        a<> href="#" ququ delete answer

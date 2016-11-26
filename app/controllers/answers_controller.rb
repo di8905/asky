@@ -16,7 +16,6 @@ class AnswersController < ApplicationController
   end
 
   def edit
-    @answer.attachments.build
   end
 
   def update
@@ -46,7 +45,12 @@ class AnswersController < ApplicationController
   
   def publish_answer
     return if @answer.errors.any?
-    ActionCable.server.broadcast("question_answers_#{params[:question_id]}", @answer)
+    data = { 
+      answer_user_id: current_user.id,
+      question_user_id: @question.user_id,
+      answer: @answer
+    }
+    ActionCable.server.broadcast("question_answers_#{params[:question_id]}", data)
   end
 
   def set_question

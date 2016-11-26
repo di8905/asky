@@ -2,11 +2,11 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 ready = -> 
-  $('.edit-answer-link').click (e) ->
-    e.preventDefault()
-    answer_id = $(this).data('answerId')
-    $(this).hide()
-    $('form#edit-answer-form-' + answer_id).show()
+  # $('.edit-answer-link').click (e) ->
+  #   e.preventDefault()
+  #   answer_id = $(this).data('answerId')
+  #   $(this).hide()
+  #   $('form#edit-answer-form-' + answer_id).show()
     
   $('#edit-question-link').click (e) ->
     e.preventDefault()
