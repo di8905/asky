@@ -12,7 +12,7 @@ ready = ->
     e.preventDefault()
     $(this).hide()
     
-  $('.answer-buttons').on('click', 'a.cancel', (event) ->
+  $(document).on('click', 'a.cancel', (event) ->
       event.preventDefault()
       $(this).parent().remove()
   )
