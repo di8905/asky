@@ -10,9 +10,9 @@ tr id="answer-#{answer.id}"
       = gon.current_user
     .answer-buttons
       -if gon.current_user_id == question_user_id
-        a> href="answers/#{answer.id}/set-best" data-method="patch" id='select-as-best-link' data-remote="true" rel="nofollow" select as best
+        a> href="/answers/#{answer.id}/set_best" data-method="patch" data-remote="true" id='select-as-best-link'  rel="nofollow" select as best
         | |
       -if gon.current_user_id == answer_user_id
-        a<> href="#" class="edit-answer-link"  ququ edit answer
+        a<> href="/answers/#{answer.id}/edit" data-remote="true" class="edit-answer-link"  ququ edit answer
         | |
-        a<> href="#" ququ delete answer
+        a<> href="/answers/#{answer.id}" data-remote="true" data-method="delete" data-confirm="Sure?" class="delete-answer-link"  ququ delete answer

@@ -7,12 +7,15 @@ ready = ->
   #   answer_id = $(this).data('answerId')
   #   $(this).hide()
   #   $('form#edit-answer-form-' + answer_id).show()
-    
-  $('#edit-question-link').click (e) ->
+  
+  $('.cancel').click (e) ->
     e.preventDefault()
     $(this).hide()
-    $('form#edit-question-form').show()
     
+  $('.answer-buttons').on('click', 'a.cancel', (event) ->
+      event.preventDefault()
+      $(this).parent().remove()
+  )
   $('.question-rating > a').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
     $('#errors').html('')

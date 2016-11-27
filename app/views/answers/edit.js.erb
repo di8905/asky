@@ -1,2 +1,1 @@
-$("#answer-<%= @answer.id %> .answer-buttons").html("<%= j render 'answers/edit_answer_form', answer: @answer %>")
-console.log("<%= j render 'answers/edit_answer_form', answer: @answer %>")
+$("#answer-<%= @answer.id %> .answer-buttons").append("<%= j render 'answers/edit_answer_form', answer: @answer %>")

@@ -1,4 +1,4 @@
-$('table#answers tbody').append(" <%= j render @answer %> ");
+// $('table#answers tbody').append(" <%= j render @answer %> ");
 <% if @answer.errors.any? %>
   $('#errors').html( " <%=  j render 'common/errors', resource: @answer %> " );
 <% else %> 

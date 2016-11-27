@@ -6,6 +6,7 @@ $(document).on('turbolinks:load', ->
       @installQuestionPageChangeCallback()
       @followCurrenQuestion()
     received: (data) ->
+      console.log(data)
       $('#answers').append(JST["templates/answer"]({data: data}))
       return
 
