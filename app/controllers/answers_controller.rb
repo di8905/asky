@@ -20,7 +20,7 @@ class AnswersController < ApplicationController
 
   def update
     if current_user.author_of?(@answer)
-      @answer.update(answer_params)
+      render 'update', status: :unprocessable_entity unless @answer.update(answer_params)
     else
       @answer.errors.add(:base, message: 'Cannot edit answer if not author')
     end

@@ -8,40 +8,31 @@ ready = ->
   #   $(this).hide()
   #   $('form#edit-answer-form-' + answer_id).show()
   
-  $('.cancel').click (e) ->
+  $('body').on 'click', '.cancel', (e) ->
     e.preventDefault()
-    $(this).hide()
-    
-  $(document).on('click', 'a.cancel', (event) ->
-      event.preventDefault()
-      $(this).parent().remove()
-  )
+    $(this).parent().hide()
+  $('#edit-question-link').click (event) ->
+    event.preventDefault()
+    $('#edit-question-form').show()
   $('.question-rating > a').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
-    $('#errors').html('')
+    $('#errors-field').html('')
     $('#question-' + response.id + '-rating').html(response.rating)
   .bind 'ajax:error', (e, xhr, status, error) -> 
     button = '<button type="button" class="close" data-dismiss="alert">×</button>'
     response = $.parseJSON(xhr.responseText)
-    $('#errors').html('<div class="alert fade in alert-danger">' + button + response + '</div>' )
-  # $('.answer-rating > a').bind 'ajax:success', (e, data, status, xhr) ->
-  #   response = $.parseJSON(xhr.responseText)
-  #   $('#errors').html('')
-  #   $('#answer-' + response.id + '-rating').html(response.rating)
+    $('#errors-field').html('<div class="alert fade in alert-danger">' + button + response + '</div>' )
   $(document).on 'ajax:success', '#answers', (e, xhr, status, error) ->
-    console.log(xhr)
-    $('#errors').html('')
+    $('#errors-field').html('')
     $('#answer-' + xhr.id + '-rating').html(xhr.rating)    
   .bind 'ajax:error', (e, xhr, status, error) ->
     button = '<button type="button" class="close" data-dismiss="alert">×</button>'
     response = $.parseJSON(xhr.responseText)
-    $('#errors').html('<div class="alert fade in alert-danger">' + button + response + '</div>' )
+    $('#errors-field').html('<div class="alert fade in alert-danger">' + button + response + '</div>' )
 
 fileName = (url) -> 
   return url.replace(/^.*[\\\/]/, '')
 window.fileName = fileName
 
-$(document).ready(ready)
-$(document).on('page:load', ready)
 $(document).on("turbolinks:load", ready)
-$(document).on('page:update', ready)
+$(document).change(ready)

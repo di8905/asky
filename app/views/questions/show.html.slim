@@ -1,5 +1,4 @@
 h1#caption= @question.title
-#errors  
 #question data-id="#{@question.id}"
   #question-body
     p= @question.body
@@ -33,6 +32,7 @@ h1#caption= @question.title
         = a.link_to_remove 'remove'
     =f.link_to_add 'add file', :attachments
   =f.submit 'Save', class: 'btn btn-default'
+  =link_to "Cancel", "#", class: "btn btn-default cancel"
 
 .answers
   table.table.table#answers
@@ -54,4 +54,5 @@ h1#caption= @question.title
   = f.link_to_add 'add file', :attachments
   .form-group
   = f.submit 'Post your answer', class: 'btn btn-success'
+
      

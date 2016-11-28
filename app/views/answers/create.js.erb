@@ -1,7 +1,7 @@
 // $('table#answers tbody').append(" <%= j render @answer %> ");
 <% if @answer.errors.any? %>
-  $('#errors').html( " <%=  j render 'common/errors', resource: @answer %> " );
+  $('#errors-field').html( " <%=  j render 'common/errors', resource: @answer %> " );
 <% else %> 
-  $('#errors').html('') 
+  $('#errors-field').html('') 
   $('textarea#answer_body').val('');
 <% end %>  

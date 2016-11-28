@@ -29,7 +29,7 @@ feature 'update question', %q{
       fill_in 'Edit your question:', with: 'New '
       click_on 'Save'
     
-      within('#errors') do
+      within('#errors-field') do
         expect(page).to have_content 'Body is too short'
         expect(page).to have_content 'Title is too short'
       end

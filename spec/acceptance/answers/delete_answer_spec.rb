@@ -5,7 +5,7 @@ feature 'delete answer', %q{
 } do
     
   let(:delete_action) do
-    click_on('Delete answer', match: :first)
+    click_on('delete answer', match: :first)
   end
   
   context 'logged in user' do

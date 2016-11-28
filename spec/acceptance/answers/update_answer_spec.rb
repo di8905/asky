@@ -12,7 +12,7 @@ feature 'update answer', %q{
     scenario 'author edits his answer', js: true do
       log_in(user)
       visit question_path(question)
-      click_on 'Edit answer'
+      click_on 'edit answer'
       fill_in 'Edit your answer:', with: 'New test answer body', match: :first
       click_on 'Save'
       
@@ -26,13 +26,12 @@ feature 'update answer', %q{
     scenario 'author updates his answer with invalid answer', js: true do
       log_in(user)
       visit question_path(question)
-      click_on 'Edit answer'
+      click_on 'edit answer'
       fill_in 'Edit your answer', with: 'Bo', match: :first
       click_on 'Save'
+      sleep(1)
       
-      within 'div#errors' do
-        expect(page).to have_content('Body is too short') 
-      end 
+      expect(page).to have_content('Body is too short') 
       within '.answers' do
         expect(page).to have_selector('textarea#answer_body')
         expect(page).to have_content(answer.body)
