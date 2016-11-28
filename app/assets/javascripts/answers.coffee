@@ -24,10 +24,14 @@ ready = ->
     button = '<button type="button" class="close" data-dismiss="alert">×</button>'
     response = $.parseJSON(xhr.responseText)
     $('#errors').html('<div class="alert fade in alert-danger">' + button + response + '</div>' )
-  $('.answer-rating > a').bind 'ajax:success', (e, data, status, xhr) ->
-    response = $.parseJSON(xhr.responseText)
+  # $('.answer-rating > a').bind 'ajax:success', (e, data, status, xhr) ->
+  #   response = $.parseJSON(xhr.responseText)
+  #   $('#errors').html('')
+  #   $('#answer-' + response.id + '-rating').html(response.rating)
+  $(document).on 'ajax:success', '#answers', (e, xhr, status, error) ->
+    console.log(xhr)
     $('#errors').html('')
-    $('#answer-' + response.id + '-rating').html(response.rating)
+    $('#answer-' + xhr.id + '-rating').html(xhr.rating)    
   .bind 'ajax:error', (e, xhr, status, error) ->
     button = '<button type="button" class="close" data-dismiss="alert">×</button>'
     response = $.parseJSON(xhr.responseText)

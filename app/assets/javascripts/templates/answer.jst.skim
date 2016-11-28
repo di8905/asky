@@ -16,3 +16,8 @@ tr id="answer-#{answer.id}"
         a<> href="/answers/#{answer.id}/edit" data-remote="true" class="edit-answer-link"  ququ edit answer
         | |
         a<> href="/answers/#{answer.id}" data-remote="true" data-method="delete" data-confirm="Sure?" class="delete-answer-link"  ququ delete answer
+      .answer-rating
+        a href="/answers/#{answer.id}/vote?value=-1" data-remote="true" data-method="patch" data-type="json" rel="nofollow" - 
+        span id="answer-#{answer.id}-rating"  0 
+        a href="/answers/#{answer.id}/vote?value=1" data-remote="true" data-method="patch" data-type="json" rel="nofollow" + 
+ready()
