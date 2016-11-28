@@ -48,7 +48,8 @@ class AnswersController < ApplicationController
     data = { 
       answer_user_id: current_user.id,
       question_user_id: @question.user_id,
-      answer: @answer
+      answer: @answer,
+      answer_attachments: @answer.attachments
     }
     ActionCable.server.broadcast("question_answers_#{params[:question_id]}", data)
   end

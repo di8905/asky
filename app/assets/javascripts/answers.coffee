@@ -36,7 +36,11 @@ ready = ->
     button = '<button type="button" class="close" data-dismiss="alert">×</button>'
     response = $.parseJSON(xhr.responseText)
     $('#errors').html('<div class="alert fade in alert-danger">' + button + response + '</div>' )
-    
+
+fileName = (url) -> 
+  return url.replace(/^.*[\\\/]/, '')
+window.fileName = fileName
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on("turbolinks:load", ready)
