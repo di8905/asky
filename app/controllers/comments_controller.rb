@@ -20,7 +20,7 @@ class CommentsController < ApplicationController
       type: :comment,
       comment: @comment
     }
-    ActionCable.server.broadcast("question_comments_#{@commentable.id}", data)
+    ActionCable.server.broadcast("question_comments_#{@question_id}", data)
   end
   
   def comment_params
@@ -30,8 +30,10 @@ class CommentsController < ApplicationController
   def set_commentable
     if params[:question_id]
       @commentable = Question.find(params[:question_id])
+      @question_id = @commentable.id
     elsif params[:answer_id]
       @commentable = Answer.find(params[:answer_id])
+      @question_id = @commentable.question.id
     end  
   end
   

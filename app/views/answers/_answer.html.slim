@@ -13,6 +13,9 @@
           =<>link_to 'edit answer', edit_answer_path(answer), class: 'edit-answer-link', data: { answer_id: answer.id, remote: true }
           | |
           =<>link_to 'delete answer', answer, method: :delete, remote: true, class: "delete-answer-link", data: { answer_id: answer.id, confirm: 'Sure?' }
+          | |
+        -if user_signed_in?  
+          = link_to 'add a comment', new_answer_comment_path(answer), remote: true
         .answer-rating
           -if current_user
             =link_to '-', vote_answer_path(answer, value: -1), method: :patch, remote: true, data: { type: :json }
@@ -24,3 +27,5 @@
           ul 
             div id="answer-#{answer.id}-attachments"  
               = render answer.attachments
+      div id="Answer-#{answer.id}-comments" class="answer-comments"
+        = render answer.comments

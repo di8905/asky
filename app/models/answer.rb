@@ -3,6 +3,7 @@ class Answer < ActiveRecord::Base
   belongs_to :user
   belongs_to :question
   has_many :attachments, as: :attachable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   validates :body, presence: true, length: { minimum: 3 }
   scope :best_first, -> { order('best DESC') }
