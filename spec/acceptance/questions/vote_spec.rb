@@ -69,8 +69,8 @@ feature 'vote for question', %q{
       visit question_path(question)
       
       within('.question-rating') do
-        expect(page).not_to have_content('+')
-        expect(page).not_to have_content('-')
+        expect(page).not_to have_link('+')
+        expect(page).not_to have_link('-')
       end
     end
     
