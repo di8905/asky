@@ -2,6 +2,7 @@ class Question < ActiveRecord::Base
   include Voteable
   has_many :answers, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
   belongs_to :user
 
   validates :title, presence: true, length: { minimum: 5 }

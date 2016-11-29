@@ -6,8 +6,12 @@ $(document).on('turbolinks:load', ->
       @installQuestionPageChangeCallback()
       @followCurrenQuestion()
     received: (data) ->
-      console.log(data)
-      $('#answers').append(JST["templates/answer"]({data: data}))
+      # console.log(data)
+      if data.type == "answer"
+        $('#answers').append(JST["templates/answer"]({data: data}))
+      if data.type == "comment"
+        targetDiv = '#' + data.comment.commentable_type + '-' + data.comment.commentable_id + '-comments'
+        $(targetDiv).append(JST["templates/comment"]({comment: data.comment}))
       return
 
     followCurrenQuestion: ->

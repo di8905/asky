@@ -33,7 +33,9 @@ h1#caption= @question.title
     =f.link_to_add 'add file', :attachments
   =f.submit 'Save', class: 'btn btn-default'
   =link_to "Cancel", "#", class: "btn btn-default cancel"
-
+|comments:
+.div id="Question-#{@question.id}-comments" class = 'question-comments'
+  =render @question.comments
 .answers
   table.table.table#answers
     tbody

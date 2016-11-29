@@ -4,3 +4,6 @@
     |  |     
   -if current_user.try(:author_of?, question)
     =link_to 'delete question', question_path(question), method: :delete, data: { confirm: 'Sure?' }
+    |  |
+  -if user_signed_in?
+    =link_to 'add a comment', new_question_comment_path(question), remote: true

@@ -1,0 +1,6 @@
+= form_for [commentable, comment], remote: true do |f|
+  .form-group
+   = f.text_area :body 
+  = f.submit 'Save', class: 'btn btn-default'
+  = link_to 'Cancel', '#', class: 'btn btn-default cancel'
+end

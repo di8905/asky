@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   
   resources :questions, except: :edit do
     patch 'vote', on: :member
+    resources :comments, only: [:new, :create], shallow: true
     resources :answers, only: [:create, :update, :destroy, :edit], shallow: true do
       patch 'set_best', on: :member
       patch 'vote', on: :member
