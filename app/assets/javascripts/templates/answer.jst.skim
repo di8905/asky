@@ -17,10 +17,15 @@ tr id="answer-#{answer.id}"
         a<> href="/answers/#{answer.id}/edit" data-remote="true" class="edit-answer-link"   edit answer
         | |
         a<> href="/answers/#{answer.id}" data-remote="true" data-method="delete" data-confirm="Sure?" class="delete-answer-link"   delete answer
+        |  |
+      -if gon.current_user_id
+        a<>  href="/answers/#{answer.id}/comments/new" data-remote="true" add a comment
       .answer-rating
-        a href="/answers/#{answer.id}/vote?value=-1" data-remote="true" data-method="patch" data-type="json" rel="nofollow" - 
+        -if gon.current_user_id
+          a href="/answers/#{answer.id}/vote?value=-1" data-remote="true" data-method="patch" data-type="json" rel="nofollow" - 
         span id="answer-#{answer.id}-rating"  0 
-        a href="/answers/#{answer.id}/vote?value=1" data-remote="true" data-method="patch" data-type="json" rel="nofollow" + 
+        -if gon.current_user_id
+          a href="/answers/#{answer.id}/vote?value=1" data-remote="true" data-method="patch" data-type="json" rel="nofollow" + 
       ul
         div id="answer-#{answer.id}-attachments"
           - for a in attachments
@@ -28,3 +33,4 @@ tr id="answer-#{answer.id}"
               a href="#{a.file.url}" #{fileName(a.file.url)}
               -if gon.current_user_id == answer_user_id
                 a href="/attachments/#{a.id}" data-remote="true" data-method="delete" data-confirm="Sure?" rel="nofollow"  [x] 
+    .div id="Answer-#{answer.id}-comments"

@@ -1,2 +1,2 @@
-
-$('#question-buttons').append("<%= j render 'comments/form', commentable: @commentable, comment: @comment%> ")
+var target = '<%= "#{@commentable.class.name}-#{@commentable.id}-comments" %>';
+$('#' + target).append("<%= j render 'comments/form', commentable: @commentable, comment: @comment%> ");

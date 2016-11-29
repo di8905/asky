@@ -10,6 +10,8 @@ class CommentsController < ApplicationController
     @comment.user = current_user
     if @comment.save
       publish_comment
+    else
+      render 'error', status: :unprocessable_entity
     end
   end
   

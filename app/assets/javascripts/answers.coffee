@@ -10,7 +10,8 @@ ready = ->
   
   $('body').on 'click', '.cancel', (e) ->
     e.preventDefault()
-    $(this).parent().hide()
+    $(this).parent().remove()
+    $('#errors-field').html('')
   $('#edit-question-link').click (event) ->
     event.preventDefault()
     $('#edit-question-form').show()
