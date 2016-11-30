@@ -34,12 +34,7 @@ class QuestionsController < ApplicationController
   end
   
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      redirect_to questions_path, notice: "Question deleted"
-    else
-      redirect_to @question, alert: "No access to delete this question"
-    end
+    respond_with @question.destroy if current_user.author_of?(@question)
   end
   
   def select_best_answer
