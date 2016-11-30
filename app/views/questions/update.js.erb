@@ -1,5 +1,5 @@
 <% if @question.errors.present? %>
-  $('div#errors-field').html(" <%= j render 'common/errors', resource: @question %> ")
+  $('div#errors-field').html(" <div class='alert fade in alert-danger'> <%= j render 'common/errors', resource: @question %> </div>")
 <% else %>
   $('div#errors-field').html('')
   $('#question-body p').text(' <%= j @question.body %> ');

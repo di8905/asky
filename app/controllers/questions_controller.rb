@@ -3,37 +3,34 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :update, :destroy, :select_best_answer, :vote]
   after_action :publish_question, only: [:create]
+  
+  respond_to :html, :js
 
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
     @answers = @question.answers.best_first
     @answer ||= @question.answers.build
     gon.current_user_id = current_user.id if user_signed_in?
+    respond_with @question
   end
 
   def new
-    @question = current_user.questions.new
+    @question = current_user.questions.build
+    respond_with @question
   end
   
   def create
     @question = current_user.questions.new(question_params)
-    if @question.save
-      redirect_to @question
-      flash[:notice] = 'Your question successfully added'      
-    else
-      render :new
-    end
+    flash[:notice] = 'Your question successfully added' if @question.save
+    respond_with @question
   end
 
   def update
-    if current_user.author_of?(@question)
-      @question.update(question_params)
-    else
-      @question.errors.add(:base, message: 'Cannot edit question if not author')
-    end
+    @question.update(question_params) if current_user.author_of?(@question)
+    respond_with @question
   end
   
   def destroy
