@@ -6,6 +6,7 @@ class Answer < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
 
   validates :body, presence: true, length: { minimum: 3 }
+  validates :question_id, presence: true
   scope :best_first, -> { order('best DESC') }
   
   accepts_nested_attributes_for :attachments, allow_destroy: true, reject_if: :all_blank

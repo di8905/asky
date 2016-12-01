@@ -1,18 +1,15 @@
 class AnswersController < ApplicationController
   include Votes
   before_action :authenticate_user!
-  before_action :set_question, only: [:new, :create]
+  before_action :set_question, only: [:create]
   before_action :set_answer, only: [:update, :edit, :destroy, :set_best, :vote]
   after_action :publish_answer, only: [:create]
-
-  def new
-    @answer = @question.answers.new
-  end
+  
+  respond_to :js
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-    @answer.save
+    @answer = current_user.answers.create(answer_params)
+    respond_with(@answer)
   end
 
   def edit
