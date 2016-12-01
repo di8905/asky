@@ -17,7 +17,7 @@ feature 'delete question', %q{
       delete_action  
       
       expect(page).not_to have_content(@question.body)
-      expect(page).to have_content('Question deleted')
+      expect(page).to have_content('Question was successfully destroyed')
     end
     
     scenario 'only author can see delete button' do

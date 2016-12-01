@@ -15,15 +15,15 @@ feature 'select best answer', %q{
     end
     
     scenario 'of question selects one of answers as best', js: true do
-      within('#answer-3') { expect(page).to have_content('best answer') }
+      within('#answer-3') { expect(page).to have_css('img#best-icon') }
     end
     
     scenario 'changes his decision about best answer', js: true do
-      within('#answer-3') { expect(page).to have_content('best answer') }
+      within('#answer-3') { expect(page).to have_css('img#best-icon') }
       
       within('#answer-4') do
         click_link('select as best')
-        expect(page).to have_content('best answer')
+        expect(page).to have_css('img#best-icon')
       end
     end
   end

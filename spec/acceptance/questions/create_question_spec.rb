@@ -15,7 +15,7 @@ feature 'create question', %q{
     fill_in 'Body', with: 'Test question body'
     click_on 'Create question'
     
-    expect(page).to have_content 'Your question successfully added'
+    expect(page).to have_content 'Question was successfully created'
     expect(page).to have_content 'Test question title'
     expect(page).to have_content 'Test question body'
   end
@@ -56,7 +56,7 @@ feature 'create question', %q{
         fill_in 'Body', with: 'Test question body'
         click_on 'Create question'
         
-        expect(page).to have_content 'Your question successfully added'
+        expect(page).to have_content 'Question was successfully created'
         expect(page).to have_content 'Test action cable question'
         expect(page).to have_content 'Test question body'
       end
