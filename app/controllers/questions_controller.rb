@@ -23,8 +23,7 @@ class QuestionsController < ApplicationController
   end
   
   def create
-    @question = current_user.questions.new(question_params)
-    flash[:notice] = 'Your question successfully added' if @question.save
+    @question = current_user.questions.create(question_params)
     respond_with @question
   end
 
@@ -39,7 +38,7 @@ class QuestionsController < ApplicationController
   
   def select_best_answer
     @answer = Answer.find(params[:answer_id])
-    render 'show.html.slim'
+    respond_with @question
   end
 
   private
