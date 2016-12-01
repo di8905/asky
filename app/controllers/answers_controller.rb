@@ -22,7 +22,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy if current_user.author_of?(@answer) #TODO make unathenticated user error handling
+    respond_with @answer.destroy if current_user.author_of?(@answer)
   end
 
   def set_best
