@@ -8,7 +8,8 @@ class AnswersController < ApplicationController
   respond_to :js
 
   def create
-    @answer = current_user.answers.create(answer_params)
+    @answer = @question.answers.create(answer_params)
+    @answer.user = current_user
     respond_with(@answer)
   end
 

@@ -1,6 +1,5 @@
-// $('table#answers tbody').append(" <%= j render @answer %> ");
 <% if @answer.errors.any? %>
-  $('#errors-field').html( " <%=  j render 'common/errors', resource: @answer %> " );
+  $('#errors-field').html( " <div class='alert fade in alert-danger'><button type='button' class='close' data-dismiss='alert'>x</button> <%=  j render 'common/errors', resource: @answer %> </div>" );
 <% else %> 
   $('#errors-field').html('') 
   $('textarea#answer_body').val('');
