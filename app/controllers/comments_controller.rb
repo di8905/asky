@@ -1,19 +1,16 @@
 class CommentsController < ApplicationController
   before_action :set_commentable
   before_action :authenticate_user!
+  after_action :publish_comment, only: [:create]
+  respond_to :js
   
   def new
-    @comment = @commentable.comments.new
+    @comment = @commentable.comments.build
+    respond_with @comment
   end
   
   def create
-    @comment = @commentable.comments.new(comment_params)
-    @comment.user = current_user
-    if @comment.save
-      publish_comment
-    else
-      render 'error', status: :unprocessable_entity
-    end
+    @comment = @commentable.comments.create(comment_params.merge(user_id: current_user.id))
   end
   
   private

@@ -2,3 +2,4 @@
 - unauthorised error handling
 - patch quesions list mis lining
 - почемуто форма сабмит закрывает
+- сделать хендлинг ошибок при редактировании ответа
