@@ -13,14 +13,12 @@ class AnswersController < ApplicationController
   end
 
   def edit
+    respond_with(@answer)
   end
 
   def update
-    if current_user.author_of?(@answer)
-      render 'update', status: :unprocessable_entity unless @answer.update(answer_params)
-    else
-      @answer.errors.add(:base, message: 'Cannot edit answer if not author')
-    end
+    @answer.update(answer_params) if current_user.author_of?(@answer)
+    respond_with(@answer)
   end
 
   def destroy
