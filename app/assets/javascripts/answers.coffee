@@ -17,15 +17,16 @@ ready = ->
     $('#edit-question-form').show()
   $('.question-rating > a').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
-    console.log(response)
-    $('#errors-field').html('')
+    if response.id != undefined
+      $('#errors-field').html('')
     $('#question-' + response.id + '-rating').html(response.rating)
   .bind 'ajax:error', (e, xhr, status, error) -> 
     button = '<button type="button" class="close" data-dismiss="alert">×</button>'
     response = $.parseJSON(xhr.responseText)
     $('#errors-field').html('<div class="alert fade in alert-danger">' + button + response + '</div>' )
   $(document).on 'ajax:success', '#answers', (e, xhr, status, error) ->
-    $('#errors-field').html('')
+    if xhr.id != undefined 
+      $('#errors-field').html('')
     $('#answer-' + xhr.id + '-rating').html(xhr.rating)    
   .bind 'ajax:error', (e, xhr, status, error) ->
     button = '<button type="button" class="close" data-dismiss="alert">×</button>'

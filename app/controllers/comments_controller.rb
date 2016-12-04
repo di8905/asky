@@ -1,7 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_commentable
   before_action :authenticate_user!
-  after_action :publish_comment, only: [:create]
   respond_to :js
   
   def new
@@ -11,6 +10,11 @@ class CommentsController < ApplicationController
   
   def create
     @comment = @commentable.comments.create(comment_params.merge(user_id: current_user.id))
+    if @comment.errors.any?
+      render 'error'
+    else
+      publish_comment
+    end
   end
   
   private
