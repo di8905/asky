@@ -17,6 +17,7 @@ ready = ->
     $('#edit-question-form').show()
   $('.question-rating > a').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
+    console.log(response)
     $('#errors-field').html('')
     $('#question-' + response.id + '-rating').html(response.rating)
   .bind 'ajax:error', (e, xhr, status, error) -> 
