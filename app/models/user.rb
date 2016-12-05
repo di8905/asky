@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   end
   
   def self.find_for_oauth(auth)
-    return if auth.empty? || !auth.dig(:info, :email)
+    return nil if auth.empty? || !auth.try(:dig, :info, :email)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization 
     
