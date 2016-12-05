@@ -27,7 +27,7 @@ RSpec.describe User, type: :model do
   
   describe '.find_for_oauth' do
     let!(:user) { FactoryGirl.create(:user) }
-    let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
+    let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: 'user@example.com'}) }
     context 'user already has authorization' do
       it 'returns the user' do
         user.authorizations.create(provider: 'facebook', uid: '123456')
