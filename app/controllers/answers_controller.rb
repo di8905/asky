@@ -5,7 +5,8 @@ class AnswersController < ApplicationController
   before_action :set_answer, only: [:update, :edit, :destroy, :set_best, :vote]
   after_action :publish_answer, only: [:create]
   
-  authorize_resource except: [:vote]
+  authorize_resource except: :vote
+  skip_authorization_check only: :vote
   
   respond_to :js, :json
 
@@ -19,19 +20,17 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params) if current_user.author_of?(@answer)
+    @answer.update(answer_params)
     respond_with(@answer)
   end
 
   def destroy
-    respond_with @answer.destroy if current_user.author_of?(@answer)
+    respond_with @answer.destroy
   end
 
   def set_best
-    if current_user.author_of?(@answer.question)
-      @answer.set_best
-      @answers = @answer.question.answers.best_first
-    end
+    @answer.set_best
+    @answers = @answer.question.answers.best_first
   end
   
   private

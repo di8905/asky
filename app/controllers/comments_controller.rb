@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   before_action :set_commentable
   before_action :authenticate_user!
+  authorize_resource
   respond_to :js
   
   def new

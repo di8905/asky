@@ -13,6 +13,8 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: exception.message
   end
   
+  check_authorization
+  
   protected
   
   def configure_devise_permitted_parameters

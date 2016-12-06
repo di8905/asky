@@ -28,6 +28,9 @@ class Ability
     can :set_best, Answer do |answer|
       answer.question.user == user
     end
+    can :destroy, Attachment do |attachment|
+      attachment.attachable.user == user
+    end
   end
   
   def non_author_can_vote(subject)

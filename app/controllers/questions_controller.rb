@@ -3,7 +3,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :update, :destroy, :select_best_answer, :vote]
   after_action :publish_question, only: [:create]
-  authorize_resource except: [:vote]
+  authorize_resource except: :vote
+  skip_authorization_check only: :vote
   
   respond_to :html, :js
 
@@ -29,19 +30,14 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @question.update(question_params) if current_user.author_of?(@question)
+    @question.update(question_params)
     respond_with @question
   end
   
   def destroy
-    respond_with @question.destroy if current_user.author_of?(@question)
+    respond_with @question.destroy
   end
   
-  def select_best_answer
-    @answer = Answer.find(params[:answer_id])
-    respond_with @question
-  end
-
   private
 
   def set_question
