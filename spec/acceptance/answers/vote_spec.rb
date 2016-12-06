@@ -57,20 +57,19 @@ feature 'vote for answer', %q{
     log_in answer.user 
     visit question_path(answer.question)
     
-    within("#answer-#{answer.id}") do 
-      click_on('+') 
-      
-      expect(page).to have_content('0')
-    end
+    visit question_path(answer.question)
     
-    expect(page).to have_content("Can't vote your own!")
+    within("#answer-#{answer.id}") do
+      expect(page).not_to have_content('+')
+      expect(page).not_to have_content('-')
+    end
   end
   
   context 'not logged in user' do
     scenario 'not logged in user cannot see vote buttons' do
       visit question_path(answer.question)
       
-      within('.question-rating') do
+      within("#answer-#{answer.id}") do
         expect(page).not_to have_content('+')
         expect(page).not_to have_content('-')
       end

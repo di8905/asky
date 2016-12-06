@@ -58,10 +58,10 @@ feature 'vote for question', %q{
   scenario 'user cannot vote own question', js: true do
     log_in question.user 
     visit question_path(question)
-    within('.question-rating') { click_on('+') }
-    
-    expect(page).to have_content("Can't vote your own!")
-    within('.question-rating') { expect(page).to have_content('0')}
+    within('.question-rating') do
+      expect(page).not_to have_link('+')
+      expect(page).not_to have_link('-')
+    end
   end
   
   context 'not logged in user' do
