@@ -1,8 +1,8 @@
 
-  -if current_user.try(:author_of?, question)
+  -if can?(:edit, question)
     = link_to 'edit question', '#', id: 'edit-question-link'
     |  |     
-  -if current_user.try(:author_of?, question)
+  -if can?(:destroy, question)
     =link_to 'delete question', question_path(question), method: :delete, data: { confirm: 'Sure?' }
     |  |
   -if user_signed_in?
