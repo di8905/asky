@@ -74,6 +74,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       before do
+        sign_in answer.user
         patch :update, question_id: question.id, id: answer, answer: { body: nil }, format: :js
       end
 
@@ -115,9 +116,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete_action }.not_to change(Answer, :count)
       end
       
-      it 'renders answers/destroy js template' do
+      it 'redirects to root path with access denied' do
         delete_action
-        expect(response).to render_template('answers/destroy')
+        expect(response).to redirect_to root_path
       end
     end 
   end
