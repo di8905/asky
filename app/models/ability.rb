@@ -25,6 +25,9 @@ class Ability
     non_author_can_vote(Answer)
     can :create, [Question, Answer, Comment]
     can [:update, :destroy], [Question, Answer, Comment], user: user
+    can :set_best, Answer do |answer|
+      answer.question.user == user
+    end
   end
   
   def non_author_can_vote(subject)

@@ -3,10 +3,9 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :update, :destroy, :select_best_answer, :vote]
   after_action :publish_question, only: [:create]
+  authorize_resource except: [:vote]
   
   respond_to :html, :js
-  
-  authorize_resource
 
   def index
     respond_with(@questions = Question.all)

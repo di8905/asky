@@ -27,9 +27,12 @@ RSpec.describe Ability do
     let(:other_user_question) { FactoryGirl.create(:question) }
     let(:other_user_answer) { FactoryGirl.create(:answer) }
     let(:other_user_comment) { FactoryGirl.create(:answer_comment) }
+    let(:answer) { FactoryGirl.create(:answer, question: user_question)}
     
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
+    it { should be_able_to :set_best, answer}
+    it { should_not be_able_to :set_best, other_user_answer }
         
     [Question, Answer, Comment].each do |subject|
       it { should be_able_to :create, subject }

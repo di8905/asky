@@ -166,8 +166,8 @@ RSpec.describe QuestionsController, type: :controller do
           expect(question.body).to eq 'MyText must be at least 10 letters'
         end
         
-        it 'renders update js' do
-          expect(response).to render_template 'update'
+        it 'redirects to root path' do
+          expect(response).to redirect_to root_path
         end
     end
     

@@ -9,9 +9,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
   
-  # rescue_from CanCan::AccessDenied do |exception|
-  #   redirect_to root_url, alert: exception.message
-  # end
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, alert: exception.message
+  end
   
   protected
   

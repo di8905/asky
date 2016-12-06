@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
   before_action :set_answer, only: [:update, :edit, :destroy, :set_best, :vote]
   after_action :publish_answer, only: [:create]
   
+  authorize_resource except: [:vote]
+  
   respond_to :js, :json
 
   def create

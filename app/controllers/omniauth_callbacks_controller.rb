@@ -1,4 +1,6 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  skip_authorization_check
+  
   def facebook
     common_callback('Facebook')    
   end
