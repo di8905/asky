@@ -34,19 +34,13 @@ RSpec.describe Ability do
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
     
-    it { should be_able_to :update, user_question, user: user}
-    it { should_not be_able_to :update, other_user_question, user: user }
-    it { should be_able_to :destroy, user_question, user: user}
-    it { should_not be_able_to :destroy, other_user_question, user: user }
-    
-    it { should be_able_to :update, user_answer, user: user}
-    it { should_not be_able_to :update, other_user_answer, user: user }
-    it { should be_able_to :destroy, user_answer, user: user}
-    it { should_not be_able_to :destroy, other_user_answer, user: user }
-    
-    it { should be_able_to :update, user_comment, user: user}
-    it { should_not be_able_to :update, other_user_comment, user: user }
-    it { should be_able_to :destroy, user_comment, user: user}
-    it { should_not be_able_to :destroy, other_user_comment, user: user }
+    %i(update destroy).each do |action|
+      %i(user_question user_answer user_comment).each do |subject|
+        it { should be_able_to action, send(subject), user: user}
+      end
+      %i(other_user_question other_user_answer other_user_comment).each do |subject|
+        it { should_not be_able_to action, send(subject), user: user}
+      end
+    end
   end
 end
