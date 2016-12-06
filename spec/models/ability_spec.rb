@@ -35,6 +35,11 @@ RSpec.describe Ability do
       it { should be_able_to :create, subject }
     end
     
+    %i(user_question user_answer).each do |subject|
+      it { should_not be_able_to :vote, subject, user: user }
+      it { should be_able_to :vote, other_user_question, user: user }
+    end
+    
     %i(update destroy).each do |action|
       %i(user_question user_answer user_comment).each do |subject|
         it { should be_able_to action, send(subject), user: user}

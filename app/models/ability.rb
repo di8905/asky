@@ -21,7 +21,15 @@ class Ability
   
   def user_abilities
     guest_abilities
+    non_author_can_vote(Question)
+    non_author_can_vote(Answer)
     can :create, [Question, Answer, Comment]
     can [:update, :destroy], [Question, Answer, Comment], user: user
+  end
+  
+  def non_author_can_vote(subject)
+    can :vote, subject do |obj|
+      !user.author_of?(obj)      
+    end
   end
 end
