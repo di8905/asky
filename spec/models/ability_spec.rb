@@ -30,9 +30,10 @@ RSpec.describe Ability do
     
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
-    it { should be_able_to :create, Question }
-    it { should be_able_to :create, Answer }
-    it { should be_able_to :create, Comment }
+        
+    [Question, Answer, Comment].each do |subject|
+      it { should be_able_to :create, subject }
+    end
     
     %i(update destroy).each do |action|
       %i(user_question user_answer user_comment).each do |subject|
