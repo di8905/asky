@@ -21,21 +21,19 @@ class Ability
   
   def user_abilities
     guest_abilities
-    non_author_can_vote(Question)
-    non_author_can_vote(Answer)
+    can :vote, Answer do |answer|
+      !user.author_of?(answer)
+    end
+    can :vote, Question do |question|
+      !user.author_of?(question)
+    end
     can :create, [Question, Answer, Comment]
-    can [:update, :destroy], [Question, Answer, Comment], user: user
+    can [:update, :destroy], [Question, Answer, Comment], user_id: user.id
     can :set_best, Answer do |answer|
       answer.question.user == user
     end
     can :destroy, Attachment do |attachment|
       attachment.attachable.user == user
-    end
-  end
-  
-  def non_author_can_vote(subject)
-    can :vote, subject do |obj|
-      !user.author_of?(obj)      
     end
   end
 end

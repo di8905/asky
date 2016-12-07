@@ -118,7 +118,7 @@ RSpec.describe AnswersController, type: :controller do
       
       it 'redirects to root path with access denied' do
         delete_action
-        expect(response).to redirect_to root_path
+        expect(response).to be_forbidden
       end
     end 
   end
