@@ -1,14 +1,15 @@
 class Api::V1::ProfilesController < ApplicationController
-  skip_authorization_check
   before_action :doorkeeper_authorize!
+  authorize_resource class: User
   
   respond_to :json
   
   def me
+    current_user = current_resource_owner
     respond_with current_resource_owner
   end
   
-  def others
+  def index
     respond_with User.where.not(id: current_resource_owner.id)
   end
   

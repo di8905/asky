@@ -21,6 +21,7 @@ class Ability
   
   def user_abilities
     guest_abilities
+    can :me, User
     can :vote, Answer do |answer|
       !user.author_of?(answer)
     end
