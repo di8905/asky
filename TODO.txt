@@ -1,5 +1,1 @@
-- answer#edit controller specs
-- unauthorised error handling
-- patch quesions list mis lining
-- почемуто форма сабмит закрывает
-- сделать хендлинг ошибок при редактировании ответа
+- api questions list в ответах не приходит рейтинг, разобраться почему не сериализуется
