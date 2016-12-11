@@ -74,6 +74,7 @@ describe 'Questions API' do
       let!(:question) { FactoryGirl.create(:question) }
       let!(:answers) { FactoryGirl.create_list(:answer, 3, question: question) }
       let!(:comments) { FactoryGirl.create_list(:question_comment, 3, commentable: question) }
+      let!(:attachments) { FactoryGirl.create_list(:attachment, 3, attachable: question) }
       before { get "/api/v1/questions/#{question.id}", format: :json, access_token: access_token.token }
       
       it 'returns 200 status code' do
@@ -111,6 +112,12 @@ describe 'Questions API' do
               expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("question/comments/#{i}/#{attr}")
             end
           end
+        end
+      end
+      
+      context 'question attachments' do
+        it 'returns list of question attachments' do
+          expect(response.body).to have_json_size(3).at_path("question/attachments")
         end
       end
     end
