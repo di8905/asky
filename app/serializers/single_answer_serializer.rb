@@ -1,5 +1,4 @@
-class SingleAnswerSerializer < ActiveModel::Serializer
-  attributes :id, :rating, :created_at, :updated_at, :body, :question_id, :user_id, :best
+class SingleAnswerSerializer < AnswerListSerializer
   has_many :comments
   has_many :attachments
 end
