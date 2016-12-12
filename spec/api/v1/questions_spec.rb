@@ -74,7 +74,7 @@ describe 'Questions API' do
       let!(:question) { FactoryGirl.create(:question) }
       let!(:answers) { FactoryGirl.create_list(:answer, 3, question: question) }
       let!(:comments) { FactoryGirl.create_list(:question_comment, 3, commentable: question) }
-      let!(:attachments) { FactoryGirl.create_list(:attachment, 3, attachable: question) }
+      let!(:attachment) { FactoryGirl.create(:attachment, attachable: question) }
       before { get "/api/v1/questions/#{question.id}", format: :json, access_token: access_token.token }
       
       it 'returns 200 status code' do
@@ -116,8 +116,16 @@ describe 'Questions API' do
       end
       
       context 'question attachments' do
-        it 'returns list of question attachments' do
-          expect(response.body).to have_json_size(3).at_path("question/attachments")
+        it 'returns list of question attachments urls' do
+          expect(response.body).to have_json_size(1).at_path("question/attachments")
+        end
+        
+        it 'returns question attachment names' do
+          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("question/attachments/0/url")
+        end
+        
+        it 'returns question attachment urls' do
+          expect(response.body).to be_json_eql(attachment.file.identifier.to_json).at_path("question/attachments/0/filename")
         end
       end
     end
