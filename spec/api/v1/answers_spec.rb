@@ -39,6 +39,8 @@ describe 'Answers API' do
   
   describe "Get /show" do
     let!(:answer) { FactoryGirl.create(:answer) }
+    let!(:comments) { FactoryGirl.create_list(:answer_comment, 3, commentable: answer)}
+    let(:comment) { comments.last }
     # let!(:question) { answer.question }
 
     context 'unauthorized' do
@@ -62,6 +64,18 @@ describe 'Answers API' do
       %w(id rating created_at updated_at body question_id user_id best).each do |attr|
         it "has attribite #{attr}" do
           expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("answer/#{attr}")
+        end
+      end
+      
+      context 'answer comments' do
+        it 'includes answer comments list' do
+          expect(response.body).to have_json_size(3).at_path("answer/comments")
+        end
+        
+        %w(id body commentable_type commentable_id user_id).each do |attr|
+          it "includes comment attribite #{attr}" do
+            expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("answer/comments/0/#{attr}")
+          end
         end
       end
     end
