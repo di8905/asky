@@ -4,12 +4,12 @@ class Api::V1::AnswersController < Api::V1::BaseController
     
   def index
     @answers = @question.answers
-    respond_with @answers
+    respond_with @answers, each_serializer: AnswerListSerializer
   end
   
   def show
     @answer = Answer.find(params[:id])
-    respond_with @answer
+    respond_with @answer, serializer: SingleAnswerSerializer
   end
   
   def create

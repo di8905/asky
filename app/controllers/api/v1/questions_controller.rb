@@ -3,12 +3,12 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   
   def index
     @questions = Question.all
-    respond_with @questions
+    respond_with @questions, each_serializer: QuestionListSerializer
   end
   
   def show
     @question = Question.find(params[:id])
-    respond_with @question
+    respond_with @question, serializer: SingleQuestionSerializer
   end
   
   def create
@@ -18,6 +18,6 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   
   private
   def question_params
-    params.require(:question).permit(:value, :title, :body, attachments_attributes: [:file, :_destroy, :id])
+    params.require(:question).permit(:value, :title, :body)
   end
 end

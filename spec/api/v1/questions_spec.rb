@@ -39,18 +39,6 @@ describe 'Questions API' do
           end
         end
       end
-      
-      context 'question answers' do
-        it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path("questions/0/answers")
-        end
-        
-        %w(id created_at updated_at body question_id user_id rating best).each do |attr|
-          it "answer contains attr #{attr}" do
-            expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("questions/0/answers/0/#{attr}")
-          end
-        end
-      end
     end
   end
   
