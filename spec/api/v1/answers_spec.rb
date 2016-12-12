@@ -41,6 +41,7 @@ describe 'Answers API' do
     let!(:answer) { FactoryGirl.create(:answer) }
     let!(:comments) { FactoryGirl.create_list(:answer_comment, 3, commentable: answer)}
     let(:comment) { comments.last }
+    let!(:attachment) { FactoryGirl.create(:attachment, attachable: answer) }
     # let!(:question) { answer.question }
 
     context 'unauthorized' do
@@ -76,6 +77,16 @@ describe 'Answers API' do
           it "includes comment attribite #{attr}" do
             expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("answer/comments/0/#{attr}")
           end
+        end
+      end
+      
+      context 'answer attachments' do
+        it 'returns answer attachments names' do
+          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("answer/attachments/0/url")
+        end
+        
+        it 'returns question attachments urls' do
+          expect(response.body).to be_json_eql(attachment.file.identifier.to_json).at_path("answer/attachments/0/filename")
         end
       end
     end
