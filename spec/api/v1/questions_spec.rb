@@ -130,4 +130,41 @@ describe 'Questions API' do
       end
     end
   end
+  
+  describe 'POST /create' do
+    let(:valid_attributes) { FactoryGirl.attributes_for(:question) }
+    let(:invalid_attributes) { FactoryGirl.attributes_for(:invalid_question) }
+    let(:access_token) { FactoryGirl.create(:access_token) }
+    let(:create_query) { post "/api/v1/questions", params: {access_token: access_token.token, question: valid_attributes, format: :json} }
+    let(:invalid_query) { post "/api/v1/questions", params: {access_token: access_token.token, question: invalid_attributes, format: :json} }
+    
+    context 'authorized' do
+      it 'creates new question in db with valid query' do
+        expect { create_query }.to change(Question, :count).by(1)
+      end
+      
+      it 'does not creates question in db with invalid question parameters' do
+        expect { invalid_query }.not_to change(Question, :count)
+      end
+      
+      it 'returns 422 status with invalid question parameters' do
+        invalid_query
+        expect(response.status).to eq 422
+      end
+    end
+    
+    context 'unauthorized' do
+      it 'returns 401 status then there is no access token' do
+        post "/api/v1/questions", params: {question: valid_attributes, format: :json}
+        
+        expect(response.status).to eq 401
+      end
+      
+      it 'returns 401 status then access token is invalid' do
+        post "/api/v1/questions", params: {question: valid_attributes, format: :json, access_token: '1234'}
+        
+        expect(response.status).to eq 401
+      end
+    end
+  end
 end

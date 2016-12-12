@@ -20,8 +20,8 @@ Rails.application.routes.draw do
         get :me, on: :collection
         get :index, on: :collection
       end
-      resources :questions do
-        resources :answers, shallow: true
+      resources :questions, except: [:new, :edit, :update] do
+        resources :answers, except: [:new, :edit, :update], shallow: true
       end
     end
   end
