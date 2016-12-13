@@ -2,19 +2,9 @@ require 'rails_helper'
 
 describe 'Questions API' do
   describe 'GET /index' do
-    context 'unauthorized' do
-      it 'returns 401 status then there is no access token' do
-        get '/api/v1/questions', format: :json
-        
-        expect(response.status).to eq 401
-      end
-      
-      it 'returns 401 status then access token is invalid' do
-        get '/api/v1/questions', format: :json, access_token: '123456'
-        
-        expect(response.status).to eq 401
-      end
-    end
+    let(:http_method) { :get }
+    let(:path) { '/api/v1/questions' }
+    it_behaves_like 'API authenticable'
     
     context 'authorized' do
       let(:access_token) { FactoryGirl.create(:access_token) }
@@ -43,23 +33,13 @@ describe 'Questions API' do
   end
   
   describe 'GET /show' do
-    context 'unauthorized' do
-      it 'returns 401 status then there is no access token' do
-        get '/api/v1/questions', format: :json
-        
-        expect(response.status).to eq 401
-      end
-      
-      it 'returns 401 status then access token is invalid' do
-        get '/api/v1/questions', format: :json, access_token: '123456'
-        
-        expect(response.status).to eq 401
-      end
-    end
+    let!(:question) { FactoryGirl.create(:question) }
+    let(:http_method) { :get }
+    let(:path) { "/api/v1/questions/#{question.id}" }
+    it_behaves_like 'API authenticable'
     
     context 'authorized' do
       let(:access_token) { FactoryGirl.create(:access_token) }
-      let!(:question) { FactoryGirl.create(:question) }
       let!(:answers) { FactoryGirl.create_list(:answer, 3, question: question) }
       let!(:comments) { FactoryGirl.create_list(:question_comment, 3, commentable: question) }
       let!(:attachment) { FactoryGirl.create(:attachment, attachable: question) }
@@ -125,6 +105,10 @@ describe 'Questions API' do
     let(:access_token) { FactoryGirl.create(:access_token) }
     let(:create_query) { post "/api/v1/questions", params: {access_token: access_token.token, question: valid_attributes, format: :json} }
     let(:invalid_query) { post "/api/v1/questions", params: {access_token: access_token.token, question: invalid_attributes, format: :json} }
+    let(:http_method) { :post }
+    let(:path) { "/api/v1/questions" }
+    let(:options) { {question: valid_attributes} }
+    it_behaves_like 'API authenticable'
     
     context 'authorized' do
       it 'creates new question in db with valid query' do
@@ -138,20 +122,6 @@ describe 'Questions API' do
       it 'returns 422 status with invalid question parameters' do
         invalid_query
         expect(response.status).to eq 422
-      end
-    end
-    
-    context 'unauthorized' do
-      it 'returns 401 status then there is no access token' do
-        post "/api/v1/questions", params: {question: valid_attributes, format: :json}
-        
-        expect(response.status).to eq 401
-      end
-      
-      it 'returns 401 status then access token is invalid' do
-        post "/api/v1/questions", params: {question: valid_attributes, format: :json, access_token: '1234'}
-        
-        expect(response.status).to eq 401
       end
     end
   end
