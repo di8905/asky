@@ -5,20 +5,9 @@ describe 'Answers API' do
     let!(:question) { FactoryGirl.create(:question) }
     let!(:answers) { FactoryGirl.create_list(:answer, 3, question: question) }
     let(:answer) { answers.last }
-    
-    context 'unauthorized' do
-      it 'returns 401 status then there is no access token' do
-        get "/api/v1/questions/#{question.id}/answers", format: :json
-        
-        expect(response.status).to eq 401
-      end
-      
-      it 'returns 401 status then access token is invalid' do
-        get "/api/v1/questions/#{question.id}/answers", format: :json, access_token: '123456'
-        
-        expect(response.status).to eq 401
-      end
-    end
+    let(:http_method) { :get }
+    let(:path) { "/api/v1/questions/#{question.id}/answers" }
+    it_behaves_like 'API authenticable'    
     
     context 'authorized' do
       let!(:access_token) { FactoryGirl.create(:access_token) }
@@ -42,21 +31,9 @@ describe 'Answers API' do
     let!(:comments) { FactoryGirl.create_list(:answer_comment, 3, commentable: answer)}
     let(:comment) { comments.last }
     let!(:attachment) { FactoryGirl.create(:attachment, attachable: answer) }
-    # let!(:question) { answer.question }
-
-    context 'unauthorized' do
-      it 'returns 401 status then there is no access token' do
-        get "/api/v1/answers/#{answer.id}", format: :json
-        
-        expect(response.status).to eq 401
-      end
-      
-      it 'returns 401 status then access token is invalid' do
-        get "/api/v1/answers/#{answer.id}", format: :json, access_token: '123456'
-        
-        expect(response.status).to eq 401
-      end
-    end
+    let(:http_method) { :get }
+    let(:path) { "/api/v1/answers/#{answer.id}" }
+    it_behaves_like 'API authenticable'
     
     context 'authorized' do
       let!(:access_token) { FactoryGirl.create(:access_token) }
@@ -99,20 +76,10 @@ describe 'Answers API' do
     let(:invalid_attributes) { FactoryGirl.attributes_for(:invalid_answer)}
     let(:create_query) { post "/api/v1/questions/#{question.id}/answers", params: {answer: valid_attributes, format: :json, access_token: access_token.token} }
     let(:invalid_query) { post "/api/v1/questions/#{question.id}/answers", params: {answer: invalid_attributes, format: :json, access_token: access_token.token} }
-    
-    context 'unauthorized' do
-      it 'returns 401 status then there is no access token' do
-        post "/api/v1/questions/#{question.id}/answers", params: {question: valid_attributes, format: :json}
-        
-        expect(response.status).to eq 401
-      end
-      
-      it 'returns 401 status then access token is invalid' do
-        post "/api/v1/questions", params: {question: valid_attributes, format: :json, access_token: '1234'}
-        
-        expect(response.status).to eq 401
-      end
-    end
+    let(:http_method) { :post }
+    let(:path) { "/api/v1/questions/#{question.id}/answers" }
+    let(:options) { {question: valid_attributes} }
+    it_behaves_like 'API authenticable'
     
     context 'authorized' do
       it 'creates new answer in db with valid query' do
