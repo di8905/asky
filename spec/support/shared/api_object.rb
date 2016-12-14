@@ -42,4 +42,20 @@ shared_examples_for 'API object' do |object_attributes|
       expect(response.body).to be_json_eql(attachment.file.identifier.to_json).at_path("#{object_name}/attachments/0/filename")
     end
   end
+  
+  if object_attributes.include?('answers')
+    context 'object answers' do
+      it 'returns list of object answers' do
+        expect(response.body).to have_json_size(3).at_path("question/answers")
+      end
+      
+      %w(id created_at updated_at body question_id user_id best).each do |attr|
+        it "has answer attribute #{attr}" do
+          object.answers.each_with_index do |answer, i|
+            expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("#{object_name}/answers/#{i}/#{attr}")
+          end
+        end
+      end
+    end
+  end
 end
