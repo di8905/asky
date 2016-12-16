@@ -12,6 +12,7 @@
 !/log/.keep
 /tmp
 config/database.yml
+config/secrets.yml
 .idea
 public/uploads
 test.txt

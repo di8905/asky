@@ -22,7 +22,7 @@ Rails.application.configure do
     address: 'smtp.yandex.ru',
     port: 465,
     user_name: Rails.application.secrets.yandex_mail_user,
-    password: Rails.application.secrets.yandex_mail_password
+    password: Rails.application.secrets.yandex_mail_password,
     authentication: 'plain',
     enable_starttls_auto: true    
   }
