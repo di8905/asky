@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   has_many :votes
   has_many :comments
   has_many :authorizations
+  has_and_belongs_to_many :subscriptions
 
   validates :name, presence: true, length: { minimum: 3 }
   
@@ -34,7 +35,7 @@ class User < ActiveRecord::Base
   end
   
   def self.send_daily_digest
-    all.each do |user|
+    find_each.each do |user|
       DailyQuestionsDigestMailer.questions_digest(user).deliver_later
     end
   end

@@ -7,6 +7,8 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/poltergeist'
 require 'cancan/matchers'
+require 'sidekiq/testing'
+
 Capybara.javascript_driver = :webkit
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -29,6 +31,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 OmniAuth.config.test_mode = true
+Sidekiq::Testing.fake!
 
 RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller

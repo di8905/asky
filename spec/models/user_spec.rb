@@ -9,6 +9,8 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of(:name) }
   it { should validate_length_of(:name).is_at_least(3) }
   
+  it { should have_and_belong_to_many(:subscriptions) }
+  
   describe 'is user author of entity method test' do
     before do 
       @question = FactoryGirl.create(:question)
