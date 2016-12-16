@@ -1,0 +1,8 @@
+html
+  head
+    body
+      |  The today's question titles list you can see below:
+      ul
+        - @questions.each do |question|
+          li
+            a href="#{question_url(question)}" =question.title

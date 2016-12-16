@@ -20,10 +20,10 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp.yandex.ru',
-    port: 465,
+    port: 25,
     user_name: Rails.application.secrets.yandex_mail_user,
     password: Rails.application.secrets.yandex_mail_password,
-    authentication: 'plain',
+    authentication: :plain,
     enable_starttls_auto: true    
   }
   
