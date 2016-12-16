@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   end
   
   def self.send_daily_digest
-    find_each do |user|
+    all.each do |user|
       DailyQuestionsDigestMailer.questions_digest(user).deliver_later
     end
   end
