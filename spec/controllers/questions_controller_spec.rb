@@ -91,6 +91,15 @@ RSpec.describe QuestionsController, type: :controller do
         expect(assigns(:question).user_id).to eq @user.id
       end
       
+      it 'invokes subscribe author on this question after create' do
+        expect(controller).to receive(:subscribe_author)
+        post :create, question: valid_attributes
+      end
+      
+      it 'creates subscription' do
+        expect{ post :create, question: valid_attributes }.to change(Subscription, :count).by(1)
+      end
+      
     end
 
     context 'with invalid attributes' do
