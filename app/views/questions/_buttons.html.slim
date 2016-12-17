@@ -7,3 +7,5 @@
     |  |
   -if user_signed_in?
     =link_to 'add a comment', new_question_comment_path(question), remote: true
+    |  |
+    =link_to 'subscribe', subscribe_question_path(question), method: :patch, remote: true

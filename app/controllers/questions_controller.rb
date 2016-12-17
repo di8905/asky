@@ -1,8 +1,8 @@
 class QuestionsController < ApplicationController
   include Votes
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_question, only: [:show, :update, :destroy, :select_best_answer, :vote]
-  after_action :publish_question, :subscribe_author, only: [:create]
+  before_action :set_question, only: [:show, :update, :destroy, :select_best_answer, :vote, :subscribe]
+  after_action :publish_question, :subscribe, only: [:create]
   authorize_resource except: :vote
   skip_authorization_check only: :vote
   
@@ -34,6 +34,10 @@ class QuestionsController < ApplicationController
     respond_with @question
   end
   
+  def subscribe
+    current_user.subscriptions.create(question_id: @question.id)
+  end
+  
   def destroy
     respond_with @question.destroy
   end
@@ -42,10 +46,6 @@ class QuestionsController < ApplicationController
 
   def set_question
     @question = Question.find(params[:id])
-  end
-  
-  def subscribe_author
-    current_user.subscriptions.create(question_id: @question.id)
   end
   
   def publish_question

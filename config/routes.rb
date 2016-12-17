@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   
   resources :questions, except: :edit do
     patch 'vote', on: :member
+    patch 'subscribe', on: :member
     resources :comments, only: [:new, :create], shallow: true
     resources :answers, only: [:create, :update, :destroy, :edit], shallow: true do
       resources :comments, only: [:new, :create], shallow: true

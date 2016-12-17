@@ -1,5 +1,6 @@
 class Subscription < ApplicationRecord
-  has_and_belongs_to_many :users
+  has_many :users, through: :subscriptions_users
+  has_many :subscriptions_users
   
   validates :question_id, presence: true
 end

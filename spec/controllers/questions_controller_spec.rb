@@ -92,7 +92,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
       
       it 'invokes subscribe author on this question after create' do
-        expect(controller).to receive(:subscribe_author)
+        expect(controller).to receive(:subscribe)
         post :create, question: valid_attributes
       end
       
@@ -215,6 +215,13 @@ RSpec.describe QuestionsController, type: :controller do
       it 'does not delete question' do
         expect { delete_action }.not_to change(Question, :count)
       end
+    end
+  end
+  
+  describe 'PATCH#subscribe' do
+    sign_in_user
+    it 'creates subscription on question' do
+      expect { patch :subscribe, id: question }.to change(Subscription, :count).by(1)
     end
   end
 end
