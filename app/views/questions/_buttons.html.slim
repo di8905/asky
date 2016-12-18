@@ -8,4 +8,7 @@
   -if user_signed_in?
     =link_to 'add a comment', new_question_comment_path(question), remote: true
     |  |
+  -if current_user && question.subscribers.include?(current_user)
+    =link_to 'unsubscribe', unsubscribe_question_path(question), method: :patch, remote: true
+  -else  
     =link_to 'subscribe', subscribe_question_path(question), method: :patch, remote: true

@@ -20,4 +20,12 @@ class Question < ActiveRecord::Base
       subscribers << user
     end
   end
+  
+  def unsubscribe(user)
+    if subscribers.include?(user)
+      subscriptions.find_by_user_id(user).destroy
+    else
+      self.errors.add(:base, 'Already unsubscribed!')
+    end
+  end
 end

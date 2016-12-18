@@ -92,7 +92,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
       
       it 'invokes subscribe author on this question after create' do
-        expect(controller).to receive(:subscribe)
+        expect(controller).to receive(:subscribe_author)
         post :create, question: valid_attributes
       end
       

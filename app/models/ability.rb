@@ -29,6 +29,7 @@ class Ability
       !user.author_of?(question)
     end
     can :subscribe, Question
+    can :unsubscribe, Question
     can :create, [Question, Answer, Comment]
     can [:update, :destroy], [Question, Answer, Comment], user_id: user.id
     can :set_best, Answer do |answer|

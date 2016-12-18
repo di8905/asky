@@ -41,4 +41,26 @@ RSpec.describe Question, type: :model do
     end
   end
   
+  describe '#unsubscribe' do
+    let(:question) { FactoryGirl.create(:question) }
+    let(:user) { FactoryGirl.create(:user) }
+    before { question.subscribe(user) }
+    
+    it 'destroys subscription' do
+      expect { question.unsubscribe(user)}.to change(Subscription, :count).by(-1)
+    end
+    
+    it 'removes user subscription' do
+      question.unsubscribe(user)
+      expect(user.subscribed_questions).to_not include(question)
+    end
+    
+    it 'adds error to an object if already unsubscribed' do
+      question.unsubscribe(user)
+      question.unsubscribe(user)
+      expect(question.errors.messages[:base]).to include('Already unsubscribed!')
+    end
+    
+  end
+  
 end
