@@ -12,4 +12,12 @@ class Question < ActiveRecord::Base
   validates :user_id, presence: true
   
   accepts_nested_attributes_for :attachments, allow_destroy: true, reject_if: :all_blank
+  
+  def subscribe(user)
+    if subscribers.include?(user)
+      self.errors.add(:base, 'Already subscribed!')
+    else
+      subscribers << user
+    end
+  end
 end
