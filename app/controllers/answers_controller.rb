@@ -3,7 +3,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: [:create]
   before_action :set_answer, only: [:update, :edit, :destroy, :set_best, :vote]
-  after_action :publish_answer, only: [:create]
+  after_action :publish_answer, :send_newsletter, only: [:create]
   
   authorize_resource except: :vote
   skip_authorization_check only: :vote
@@ -34,6 +34,10 @@ class AnswersController < ApplicationController
   end
   
   private
+  
+  def send_newsletter
+    Question.send_update_to_subscribers(@answer)
+  end
 
   def set_answer
     @answer = Answer.find(params[:id])

@@ -28,4 +28,10 @@ class Question < ActiveRecord::Base
       self.errors.add(:base, 'Already unsubscribed!')
     end
   end
+  
+  def self.send_update_to_subscribers(answer)
+    answer.question.subscribers.each do |user|
+      AnswerMailer.answer_update(user, answer).deliver_later
+    end
+  end
 end

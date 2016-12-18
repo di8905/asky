@@ -1,0 +1,12 @@
+html
+  head
+    body
+      |  The question updated with answer:
+      br
+      |user: #{@answer.user.name}        
+      br  
+      |posted answer: 
+      =@answer.body
+      br
+      a href="#{question_url(@answer.question)}" link to question
+                
