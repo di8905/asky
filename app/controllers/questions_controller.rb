@@ -35,7 +35,7 @@ class QuestionsController < ApplicationController
   end
   
   def subscribe
-    current_user.subscriptions.create(question_id: @question.id)
+    @question.subscribers << current_user
   end
   
   def destroy
