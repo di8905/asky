@@ -1,0 +1,6 @@
+<% if @question.errors.present? %>
+  $('div#errors-field').html(" <div class='alert fade in alert-danger'> <%= j render 'common/errors', resource: @question %> </div>")
+<% else %>
+  $('div#errors-field').html('')
+  $('#subscribe').html("<%= j link_to 'subscribe', subscribe_question_path(@question), method: :patch, remote: true, id: 'unsubscribe' %> ");
+<% end %>  

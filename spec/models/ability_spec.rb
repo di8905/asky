@@ -34,6 +34,7 @@ RSpec.describe Ability do
     it { should be_able_to :me, User }
     it { should be_able_to :set_best, answer}
     it { should be_able_to :subscribe, Question }
+    it { should be_able_to :unsubscribe, Question }
     it { should_not be_able_to :set_best, other_user_answer }
     it { should be_able_to :destroy, Attachment.new(attachable: user_answer) }
     it { should_not be_able_to :destroy, Attachment.new(attachable: other_user_answer) }
