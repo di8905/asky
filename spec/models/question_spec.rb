@@ -12,5 +12,7 @@ RSpec.describe Question, type: :model do
   it { should validate_length_of(:body).is_at_least(10) }
   it { should validate_length_of(:title).is_at_least(5) }
   it { should accept_nested_attributes_for :attachments }
+  it { should have_many(:subscriptions).dependent(:destroy) }
+  it { should have_many(:subscribers).through(:subscriptions).source(:user) }
   it_behaves_like 'voteable'
 end

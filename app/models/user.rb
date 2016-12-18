@@ -9,8 +9,8 @@ class User < ActiveRecord::Base
   has_many :votes
   has_many :comments
   has_many :authorizations
-  has_many :subscriptions, through: :subscriptions_users
-  has_many :subscriptions_users
+  has_many :subscriptions
+  has_many :subscribed_questions, through: :subscriptions, source: :question
 
   validates :name, presence: true, length: { minimum: 3 }
   
