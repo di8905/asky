@@ -1,0 +1,6 @@
+<% if @subscription.errors.present? %>
+  $('div#errors-field').html(" <div class='alert fade in alert-danger'> <%= j render 'common/errors', resource: @subscription %> </div>")
+<% else %>
+  $('div#errors-field').html('')
+  $('#subscription-button').html("<%= link_to 'unsubscribe', subscription_path(@subscription), method: :delete, remote: true, id: 'subscription-button' %> ")
+<% end %>   

@@ -10,6 +10,6 @@
     |  |
   -if can?(:create, Subscription) && can?(:destroy, Subscription)
     -if subscription
-      =link_to 'unsubscribe', subscription_path(subscription), method: :delete, remote: true, id: 'unsubscribe'
+      =link_to 'unsubscribe', subscription_path(subscription), method: :delete, id: 'subscription-button'
     -else  
-      =link_to 'subscribe', question_subscriptions_path(question), method: :post, remote: true, id: 'subscribe'
+      =link_to 'subscribe', question_subscriptions_path(question), method: :post, id: 'subscription-button'

@@ -6,9 +6,10 @@ feature 'subscribe question updates', %q{
   let(:question) { FactoryGirl.create(:question) }
   let(:user) { FactoryGirl.create(:user) }
   
+    
   context 'subscribed user' do
     before do
-      question.subscribe(user)
+      FactoryGirl.create(:subscription, user_id: user.id, question_id: question.id)
       log_in user
       visit question_path(question)
     end
@@ -22,7 +23,6 @@ feature 'subscribe question updates', %q{
   
   context 'unsubscribed' do
     before do
-      question.unsubscribe(user)
       log_in user
       visit question_path(question)
     end

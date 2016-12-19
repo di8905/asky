@@ -5,11 +5,13 @@ class SubscriptionsController < ApplicationController
   
   def create
     @subscription = current_user.subscriptions.create(question_id: @question.id)
-    respond_with @subscription
+    redirect_to question_path(@question), notice: 'Subscribed to question updates'
   end
 
   def destroy
-    respond_with Subscription.destroy(params[:id])
+    @subscription = Subscription.find(params[:id])
+    @subscription.destroy
+    redirect_to question_path(@subscription.question), notice: 'Unsubscribed from question updates'
   end
   
   private
