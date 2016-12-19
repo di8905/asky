@@ -13,19 +13,6 @@ class Question < ActiveRecord::Base
   
   accepts_nested_attributes_for :attachments, allow_destroy: true, reject_if: :all_blank
   
-  def subscribe(user)
-    if subscribers.include?(user)
-      self.errors.add(:base, 'Already subscribed!')
-    else
-      subscribers << user
-    end
-  end
+  after_create { Subscription.create(user_id: self.user.id, question_id: id) }
   
-  def unsubscribe(user)
-    if subscribers.include?(user)
-      subscriptions.find_by_user_id(user).destroy
-    else
-      self.errors.add(:base, 'Already unsubscribed!')
-    end
-  end
 end

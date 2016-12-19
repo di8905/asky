@@ -16,51 +16,11 @@ RSpec.describe Question, type: :model do
   it { should have_many(:subscribers).through(:subscriptions).source(:user) }
   it_behaves_like 'voteable'
   
-  describe '#subscribe' do
-    let(:question) { FactoryGirl.create(:question) }
-    let(:user) { FactoryGirl.create(:user) }
-    
-    it 'creates subscription' do
-      expect { question.subscribe(user) }.to change(Subscription, :count).by(1)
-    end
-    
-    it 'subscribes user to question' do
-      question.subscribe(user)
-      expect(user.subscribed_questions).to include(question)
-    end
-    
-    it 'add error to question object if already subscribed' do
-      question.subscribe(user)
-      question.subscribe(user)
-      expect(question.errors.messages[:base]).to include("Already subscribed!")
-    end
-    
-    it 'it does not create subscription if already subscribed' do
-      question.subscribe(user)
-      expect { question.subscribe(user) }.not_to change(Subscription, :count)
+  describe 'after create' do
+    it 'subscribes author to updates' do
+      expect(Subscription).to receive(:create)
+      
+      FactoryGirl.create(:question)
     end
   end
-  
-  describe '#unsubscribe' do
-    let(:question) { FactoryGirl.create(:question) }
-    let(:user) { FactoryGirl.create(:user) }
-    before { question.subscribe(user) }
-    
-    it 'destroys subscription' do
-      expect { question.unsubscribe(user)}.to change(Subscription, :count).by(-1)
-    end
-    
-    it 'removes user subscription' do
-      question.unsubscribe(user)
-      expect(user.subscribed_questions).to_not include(question)
-    end
-    
-    it 'adds error to an object if already unsubscribed' do
-      question.unsubscribe(user)
-      question.unsubscribe(user)
-      expect(question.errors.messages[:base]).to include('Already unsubscribed!')
-    end
-    
-  end
-  
 end

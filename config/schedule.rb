@@ -17,8 +17,8 @@
 #   runner "AnotherModel.prune_old_records"
 # end
 
-every 1.day do
-  SendQuestionDigestJob.perform_later
+every 1.day, at: '00:01 am' do
+  SendQuestionDigestJob.perform_now
 end
 
 # Learn more: http://github.com/javan/whenever
