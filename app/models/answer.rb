@@ -10,6 +10,8 @@ class Answer < ActiveRecord::Base
   scope :best_first, -> { order('best DESC') }
   
   accepts_nested_attributes_for :attachments, allow_destroy: true, reject_if: :all_blank
+
+  after_create { SendAnswerNewsletterJob.perform_later(self) }
     
   def set_best
     transaction do

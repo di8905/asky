@@ -14,7 +14,17 @@ RSpec.describe Answer, type: :model do
   it { should accept_nested_attributes_for :attachments }
   it_behaves_like 'voteable'
   
-
+  describe 'after create' do
+    let(:question) { FactoryGirl.create(:question) }
+    let(:user) { FactoryGirl.create(:user) }
+      
+    it 'sends answer newsletter after create' do
+      expect(SendAnswerNewsletterJob).to receive(:perform_later)
+      FactoryGirl.create(:answer)
+    end
+  end
+  
+  
   describe 'set_best answer method tests' do
     let(:question) { FactoryGirl.create(:question_with_answers) }
     let(:answer1) { question.answers[1] }
