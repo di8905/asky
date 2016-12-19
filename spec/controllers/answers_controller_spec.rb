@@ -28,11 +28,6 @@ RSpec.describe AnswersController, type: :controller do
         valid_answer_action
         expect(assigns(:answer).user_id).to eq @user.id
       end
-      
-      it 'invokes mailing for subscribers' do
-        expect(Question).to receive(:send_update_to_subscribers)
-        valid_answer_action
-      end
     end
 
     context 'with invalid attributes' do
