@@ -28,8 +28,8 @@ class Ability
     can :vote, Question do |question|
       !user.author_of?(question)
     end
-    can :subscribe, Question
-    can :unsubscribe, Question
+    can :create, Subscription
+    can :destroy, Subscription, user_id: user.id
     can :create, [Question, Answer, Comment]
     can [:update, :destroy], [Question, Answer, Comment], user_id: user.id
     can :set_best, Answer do |answer|

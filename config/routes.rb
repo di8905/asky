@@ -1,13 +1,16 @@
 Rails.application.routes.draw do
   
+  get 'subscriptions/create'
+
+  get 'subscriptions/destroy'
+
   use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   root to: "questions#index"
   
   resources :questions, except: :edit do
     patch 'vote', on: :member
-    patch 'subscribe', on: :member
-    patch 'unsubscribe', on: :member
+    resources :subscriptions, only: [:create, :destroy], shallow: true
     resources :comments, only: [:new, :create], shallow: true
     resources :answers, only: [:create, :update, :destroy, :edit], shallow: true do
       resources :comments, only: [:new, :create], shallow: true

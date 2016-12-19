@@ -5,7 +5,7 @@ h1#caption= @question.title
   div id="question-#{@question.id}-attachments"
     = render 'attachments', question: @question
   #question-buttons
-    = render 'buttons', question: @question
+    = render 'buttons', question: @question, subscription: @subscription
     .question-rating
       -if can?(:vote, @question)
         =link_to '-', vote_question_path(@question, value: -1), method: :patch, remote: true, data: { type: :json }

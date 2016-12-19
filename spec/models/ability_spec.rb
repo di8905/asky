@@ -21,6 +21,7 @@ RSpec.describe Ability do
   
   describe 'for standard user' do
     let(:user) { FactoryGirl.create(:user) }
+    let(:other_user) { FactoryGirl.create(:user) }
     let(:user_question) { FactoryGirl.create(:question, user: user)}
     let(:user_answer) { FactoryGirl.create(:answer, user: user) }
     let(:user_comment) { FactoryGirl.create(:answer_comment, user: user) }
@@ -33,8 +34,9 @@ RSpec.describe Ability do
     it { should be_able_to :read, :all }
     it { should be_able_to :me, User }
     it { should be_able_to :set_best, answer}
-    it { should be_able_to :subscribe, Question }
-    it { should be_able_to :unsubscribe, Question }
+    it { should be_able_to :create, Subscription }
+    it { should be_able_to :destroy, Subscription.new(user: user) }
+    it { should_not be_able_to :destroy, Subscription.new(user: other_user) }
     it { should_not be_able_to :set_best, other_user_answer }
     it { should be_able_to :destroy, Attachment.new(attachable: user_answer) }
     it { should_not be_able_to :destroy, Attachment.new(attachable: other_user_answer) }

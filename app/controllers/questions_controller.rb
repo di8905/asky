@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   include Votes
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :update, :destroy, :select_best_answer, :vote, :subscribe, :unsubscribe]
-  after_action :publish_question, :subscribe_author, only: [:create]
+  after_action :publish_question, only: [:create]
   authorize_resource except: :vote
   skip_authorization_check only: :vote
   
@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
   def show
     @answers = @question.answers.best_first
     @answer ||= @question.answers.build
+    @subscription = current_user.subscriptions.find_by_question_id(@question)
     gon.current_user_id = current_user.id if user_signed_in?
     respond_with @question
   end
@@ -34,26 +35,11 @@ class QuestionsController < ApplicationController
     respond_with @question
   end
   
-  def subscribe
-    @question.subscribe(current_user)
-    respond_with @question
-  end
-  
-  def unsubscribe
-    @question.unsubscribe(current_user)
-    respond_with @question
-  end
-  
   def destroy
     respond_with @question.destroy
   end
   
   private
-  
-  def subscribe_author
-    @question.subscribe(current_user)
-  end
-
   def set_question
     @question = Question.find(params[:id])
   end

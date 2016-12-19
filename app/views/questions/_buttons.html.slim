@@ -8,8 +8,8 @@
   -if user_signed_in?
     =link_to 'add a comment', new_question_comment_path(question), remote: true
     |  |
-  -if can?(:subscribe, question) && can?(:unsubscribe, question)
-    -if question.subscribers.include?(current_user)
-      =link_to 'unsubscribe', unsubscribe_question_path(question), method: :patch, remote: true, id: 'unsubscribe'
+  -if can?(:create, Subscription) && can?(:destroy, Subscription)
+    -if subscription
+      =link_to 'unsubscribe', subscription_path(subscription), method: :delete, remote: true, id: 'unsubscribe'
     -else  
-      =link_to 'subscribe', subscribe_question_path(question), method: :patch, remote: true, id: 'subscribe'
+      =link_to 'subscribe', question_subscriptions_path(question), method: :post, remote: true, id: 'subscribe'
