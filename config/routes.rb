@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'searches/show'
+
   get 'subscriptions/create'
 
   get 'subscriptions/destroy'
@@ -8,6 +10,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   root to: "questions#index"
   
+  resource :search, only: :show
   resources :questions, except: :edit do
     patch 'vote', on: :member
     resources :subscriptions, only: [:create, :destroy], shallow: true
