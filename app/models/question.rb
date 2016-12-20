@@ -15,4 +15,6 @@ class Question < ActiveRecord::Base
   
   after_create { Subscription.create(user_id: self.user.id, question_id: id) }
   
+  default_scope { order("created_at") }
+  
 end

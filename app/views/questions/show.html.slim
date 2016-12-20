@@ -42,9 +42,9 @@ h1#caption= @question.title
     tbody
       = render @answers
 
-= render 'common/errors', resource: @answer
+= render 'common/errors', resource: @answer ||= @question.answers.build
 
-= nested_form_for [@question, @answer], remote: true do |f|
+= nested_form_for [@question, @answer || @question.answers.build], remote: true do |f|
   .form-group
   = f.label :body, 'Answer:'
   .form-group

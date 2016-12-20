@@ -13,10 +13,8 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answers = @question.answers.best_first
-    @answer ||= @question.answers.build
+    @answers = @question.answers
     @subscription = current_user.subscriptions.try(:find_by_question_id, @question) if current_user
-    
     gon.current_user_id = current_user.id if user_signed_in?
     respond_with @question
   end

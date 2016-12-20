@@ -21,14 +21,17 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    before { get :show, id: question }
+    before do
+      question.answers[2].set_best
+      get :show, id: question 
+    end
     
     it 'assigns to @question variable appropriate question object' do
       expect(assigns(:question)).to eq question
     end
     
     it 'assigns to @answers variable appropriate answers' do
-      expect(assigns(:answers)).to eq question.answers
+      expect(assigns(:answers)).to match_array question.answers
     end
     
     it 'builds new attachment for answer field' do
@@ -36,8 +39,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
     
     it 'sorts the best answer first' do
-      question.answers[2].set_best 
-      
+      # expect(question.answers[2].best).to eq true
       expect(assigns(:answers).first.best).to eq true
     end
 
