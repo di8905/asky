@@ -32,6 +32,7 @@ html lang="en"
           .navbar-collapse.collapse.navbar-responsive-collapse
             ul.nav.navbar-nav
               li= link_to "Questions list", questions_path
+              li= link_to 'Search', search_path
               -if user_signed_in?
                 li= link_to 'New question', new_question_path
                 li= link_to "Log out (#{current_user.name})", destroy_user_session_path, method: :delete

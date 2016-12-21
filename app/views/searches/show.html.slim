@@ -1,2 +1,24 @@
-h1 Searches#show
-p Find me in app/views/searches/show.html.slim
+h1 Search
+
+=form_tag search_path, method: :get, class: 'form-inline'
+  =label_tag :query, 'Search:'
+  =search_field_tag :query, params[:query], class: 'form-control'
+  =submit_tag 'Search', class: 'btn-default btn'
+  br
+  =label_tag :context, 'Where to search:'
+  =select_tag :context, 
+      options_for_select(['Questions', 'Answers', 'Comments', 'Users']),
+      class: 'form-control', multiple: true
+  
+-if @query && !@search_result.nil?
+  -if @search_result.empty?
+    |no results found  
+  -else
+    -@search_result.each  do |result|
+      p
+        =render "#{result.class.to_s.underscore.to_s}", target: result
+      
+      
+    
+  
+  
