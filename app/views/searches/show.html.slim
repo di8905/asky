@@ -10,13 +10,15 @@ h1 Search
       options_for_select(['Questions', 'Answers', 'Comments', 'Users']),
       class: 'form-control', multiple: true
   
--if @query && !@search_result.nil?
-  -if @search_result.empty?
-    |no results found  
-  -else
-    -@search_result.each  do |result|
-      p
-        =render "#{result.class.to_s.underscore.to_s}", target: result
+.search_results
+  -if @query && !@search_result.nil?
+    p Search results:
+    -if @search_result.empty?
+      |no results found  
+    -else
+      -@search_result.each  do |result|
+        p
+          =render "#{result.class.to_s.underscore.to_s}", target: result
       
       
     
