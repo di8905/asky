@@ -47,5 +47,3 @@ namespace :deploy do
   
   after :publishing, :restart
 end
-
-after 'deploy:restart', 'thinking_sphinx:restart'
