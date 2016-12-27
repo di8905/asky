@@ -28,7 +28,13 @@ append :linked_files,
         ".env"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", 'public/uploads'
+append :linked_dirs, "log",
+                     "tmp/pids",
+                     "tmp/cache",
+                     "tmp/sockets",
+                     "public/system",
+                     'public/uploads',
+                     'db/sphinx'
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
