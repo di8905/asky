@@ -25,8 +25,7 @@ set :deploy_user, 'deployer'
 append :linked_files, 
         "config/database.yml",
         "config/secrets.yml",
-        ".env",
-        "config/production.sphinx.conf"
+        ".env"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log",
