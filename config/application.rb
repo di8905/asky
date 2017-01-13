@@ -29,6 +29,7 @@ module Asky
     config.action_cable.allowed_request_origins = 
     ['http://di8905.ddns.net', 'http://localhost:3000']
     config.action_cable.disable_request_forgery_protection = false
+    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
 
     config.generators do |g|
       g.test_framework :rspec,
