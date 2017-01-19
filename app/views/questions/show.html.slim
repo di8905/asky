@@ -1,61 +1,62 @@
-h1#caption= @question.title
-#question data-id="#{@question.id}"
-  #question-body
-    p= @question.body
-  div id="question-#{@question.id}-attachments"
-    = render 'attachments', question: @question
-  #question-buttons
-    = render 'buttons', question: @question, subscription: @subscription
-    .question-rating
-      -if can?(:vote, @question)
-        =link_to '-', vote_question_path(@question, value: -1), method: :patch, remote: true, data: { type: :json }
-      span id="question-#{@question.id}-rating"
-        =<>@question.rating
-      -if can?(:vote, @question)
-        =link_to '+', vote_question_path(@question, value: 1), method: :patch, remote: true
+-cache_unless current_user.try(:admin?), [can?(:vote, @question), can?(:edit, @question), can?(:destroy, @question), user_signed_in?, can?(:create, Subscription) && can?(:destroy, Subscription), @question]
+  h1#caption= @question.title
+  #question data-id="#{@question.id}"
+    #question-body
+      p= @question.body
+    div id="question-#{@question.id}-attachments"
+      = render 'attachments', question: @question
+    #question-buttons
+      = render 'buttons', question: @question, subscription: @subscription
+      .question-rating
+        -if can?(:vote, @question)
+          =link_to '-', vote_question_path(@question, value: -1), method: :patch, remote: true, data: { type: :json }
+        span id="question-#{@question.id}-rating"
+          =<>@question.rating
+        -if can?(:vote, @question)
+          =link_to '+', vote_question_path(@question, value: 1), method: :patch, remote: true
 
-        
-  
-= nested_form_for @question, remote: true, html: { id: 'edit-question-form' } do |f|
-  .form-group
-    =f.label :title, 'Edit your question title:'
-    =f.text_field :title, class: 'form-control'
-  .form-group
-    =f.label :body, 'Edit your question:'
-    =f.text_area :body, class: 'form-control'
-  .form-group
+          
+    
+  = nested_form_for @question, remote: true, html: { id: 'edit-question-form' } do |f|
+    .form-group
+      =f.label :title, 'Edit your question title:'
+      =f.text_field :title, class: 'form-control'
+    .form-group
+      =f.label :body, 'Edit your question:'
+      =f.text_area :body, class: 'form-control'
+    .form-group
+      = f.fields_for :attachments do |a|
+        -if a.object.new_record?
+          = a.label :file
+          = a.object.class
+          = a.file_field :file
+          = a.link_to_remove 'remove'
+      =f.link_to_add 'add file', :attachments
+    =f.submit 'Save', class: 'btn btn-default'
+    =link_to "Cancel", "#", class: "btn btn-default cancel"
+  |comments:
+  .div id="Question-#{@question.id}-comments" class = 'question-comments'
+    =render @question.comments
+
+  .answers
+    table.table.table#answers
+      tbody
+        = render @answers
+
+  = render 'common/errors', resource: @answer ||= @question.answers.build
+
+  = nested_form_for [@question, @answer || @question.answers.build], remote: true do |f|
+    .form-group
+    = f.label :body, 'Answer:'
+    .form-group
+    = f.text_area :body, class: 'form-control'
+    .form-group
     = f.fields_for :attachments do |a|
-      -if a.object.new_record?
-        = a.label :file
-        = a.object.class
-        = a.file_field :file
-        = a.link_to_remove 'remove'
-    =f.link_to_add 'add file', :attachments
-  =f.submit 'Save', class: 'btn btn-default'
-  =link_to "Cancel", "#", class: "btn btn-default cancel"
-|comments:
-.div id="Question-#{@question.id}-comments" class = 'question-comments'
-  =render @question.comments
+      =a.label :file
+      =a.file_field :file
+      =a.link_to_remove 'remove'
+    = f.link_to_add 'add file', :attachments
+    .form-group
+    = f.submit 'Post your answer', class: 'btn btn-success'
 
-.answers
-  table.table.table#answers
-    tbody
-      = render @answers
-
-= render 'common/errors', resource: @answer ||= @question.answers.build
-
-= nested_form_for [@question, @answer || @question.answers.build], remote: true do |f|
-  .form-group
-  = f.label :body, 'Answer:'
-  .form-group
-  = f.text_area :body, class: 'form-control'
-  .form-group
-  = f.fields_for :attachments do |a|
-    =a.label :file
-    =a.file_field :file
-    =a.link_to_remove 'remove'
-  = f.link_to_add 'add file', :attachments
-  .form-group
-  = f.submit 'Post your answer', class: 'btn btn-success'
-
-     
+       

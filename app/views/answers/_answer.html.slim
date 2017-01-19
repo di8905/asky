@@ -1,4 +1,4 @@
--cache [can?(:set_best, answer) && !answer.best, can?(:edit, answer), user_signed_in?, can?(:vote, answer), answer] do
+-cache_unless current_user.try(:admin?), [can?(:set_best, answer) && !answer.best, can?(:edit, answer), user_signed_in?, can?(:vote, answer), answer] do
   - if answer.persisted?
     tr id="answer-#{answer.id}"
       td.best-column
