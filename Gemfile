@@ -42,7 +42,7 @@ gem 'remotipart'
 gem 'nested_form'
 gem 'jquery-turbolinks'
 gem 'poltergeist'
-gem 'puma'
+gem 'puma', '~> 3.12.1'
 gem 'gon'
 gem 'skim'
 gem 'responders'
@@ -60,7 +60,7 @@ gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'unicorn'
 gem 'redis-rails'
-
+gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
