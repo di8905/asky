@@ -18,3 +18,4 @@ config/*.sphinx.conf
 public/uploads
 test.txt
 todo.txt
+/coverage
