@@ -61,6 +61,7 @@ gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'unicorn'
 gem 'redis-rails'
 gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
+gem 'json', '~> 1.8.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -76,6 +77,7 @@ group :test do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'json_spec'
+  gem 'simplecov', require: false, group: :test
 end
 
 group :development do
