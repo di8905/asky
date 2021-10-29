@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails'
+gem 'rails', '~> 5.0.6'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -42,7 +42,7 @@ gem 'remotipart'
 gem 'nested_form'
 gem 'jquery-turbolinks'
 gem 'poltergeist'
-gem 'puma'
+gem 'puma', '~> 3.12.1'
 gem 'gon'
 gem 'skim'
 gem 'responders'
@@ -60,7 +60,8 @@ gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'unicorn'
 gem 'redis-rails'
-
+gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
+gem 'json', '~> 1.8.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -76,6 +77,7 @@ group :test do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'json_spec'
+  gem 'simplecov', require: false, group: :test
 end
 
 group :development do
