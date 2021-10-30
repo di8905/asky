@@ -7,10 +7,10 @@ RSpec.describe AnswersController, type: :controller do
    
   describe 'POST #create' do
     let(:valid_answer_action) do
-      post :create, question_id: question.id, answer: FactoryGirl.attributes_for(:answer), format: :js
+      post :create, params: { question_id: question.id, answer: FactoryGirl.attributes_for(:answer) }, format: :js
     end
     let(:invalid_answer_action) do
-      post :create, question_id: question.id, answer: {body: nil}, format: :js
+      post :create, params: { question_id: question.id, answer: { body: nil } }, format: :js
     end
 
     context 'with valid attributes' do
@@ -47,7 +47,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'with valid attributes' do
       before do
         sign_in answer.user
-        patch :update, id: answer, answer: { body: 'Custom not factored answer' }, format: :js
+        patch :update, params: { id: answer, answer: { body: 'Custom not factored answer' } }, format: :js
       end
 
       it 'assings appropriate answer to @answer' do
@@ -66,7 +66,7 @@ RSpec.describe AnswersController, type: :controller do
     
     context 'if update request from not author' do
       it 'not saves answer' do
-        patch :update, question_id: answer.question.id, id: answer, answer: { body: 'Custom not factored answer' }, format: :js
+        patch :update, params: { question_id: answer.question.id, id: answer, answer: { body: 'Custom not factored answer' } }, format: :js
         answer.reload
         expect(answer.body).to eq answer.body
       end
@@ -75,7 +75,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'with invalid attributes' do
       before do
         sign_in answer.user
-        patch :update, question_id: question.id, id: answer, answer: { body: nil }, format: :js
+        patch :update, params: { question_id: question.id, id: answer, answer: { body: nil } }, format: :js
       end
 
       it 'does not update answer' do
@@ -91,12 +91,12 @@ RSpec.describe AnswersController, type: :controller do
   
   describe 'PATCH #vote' do
     it 'invokes vote method' do
-      expect { patch :vote, id: answer, vote: 1, format: :json }.to change(Vote, :count).by(1)
+      expect { patch :vote, params: { id: answer, vote: 1 }, format: :json }.to change(Vote, :count).by(1)
     end
   end
 
   describe 'DELETE #delete' do
-    let(:delete_action) { delete :destroy, question_id: answer.question.id, id: answer, format: :js }
+    let(:delete_action) { delete :destroy, params: { question_id: answer.question.id, id: answer }, format: :js }
     
     context 'deletes if request from the author' do 
       before { sign_in answer.user }
@@ -131,7 +131,7 @@ RSpec.describe AnswersController, type: :controller do
       before do
         @request.env['devide.mapping'] = Devise.mappings[:user]
         sign_in question.user
-        patch :set_best, id: best_answer, format: :js
+        patch :set_best, params: { id: best_answer }, format: :js
       end
       
       it 'assigns to @answer appropriate answer' do
@@ -148,7 +148,7 @@ RSpec.describe AnswersController, type: :controller do
     end
     
     context 'not author tries to set best' do
-      before { patch :set_best, id: best_answer, format: :js }
+      before { patch :set_best, params: { id: best_answer }, format: :js }
       it 'does not set the best attribute to answer' do
         expect(assigns(:answer).best?).not_to eq(true)
       end
